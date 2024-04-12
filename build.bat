@@ -1,0 +1,2 @@
+pyinstaller --noconfirm --onedir --windowed --add-data "C:/Users/abhay/AppData/Local/Programs/Python/Python311/Lib/site-packages/customtkinter;customtkinter/"  "ui/admin/main.py"
+@REM pyinstaller --noconfirm --onedir --windowed --add-data "C:/Users/abhay/AppData/Local/Programs/Python/Python311/Lib/site-packages/customtkinter;customtkinter/"  "ui/user/main.py"
