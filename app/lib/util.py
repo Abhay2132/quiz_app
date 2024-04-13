@@ -39,3 +39,20 @@ class Participants():
 
 def createPayload(action:str, data)->bytes:
     return bytes(json.dumps({"action":action, "data":data}), encoding="utf-8")
+
+
+class Obj(dict):
+    def set(self, **kwargs):
+        for key in kwargs:
+            # self.__data[key] = kwargs[key]
+            super().__setitem__(key, kwargs[key])
+        return self
+    
+    def copy(self):
+        return Obj(**self)
+    
+
+class UI:
+    parent=None
+    def show(self):
+        pass

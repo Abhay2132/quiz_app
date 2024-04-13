@@ -11,6 +11,14 @@
             "program": "tests.py",
             "console": "integratedTerminal",
             "args": "cli:admin"
+        },
+        {
+            "name": "ui:admin",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "tests.py",
+            "console": "integratedTerminal",
+            "args": "ui:admin"
         }
     ]
 }

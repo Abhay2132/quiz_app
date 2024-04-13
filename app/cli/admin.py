@@ -29,17 +29,28 @@ class Admin(ADMIN, EventEmitter):
         self.currentRound = self.rounds[0]
         # self.qBank.load()
     
-    def askQ(self, clientID:Participant.clientID, question: Question):
-        options = list(filter(bool, question.options.split(",")))
-        payload = createPayload("askQ", question.forParticipant())
-        self.server.sendTo(payload, clientID)
-        # ans = askMCQ(question.text, question.options, lambda:print(""))
+    def renderQ(self, question):
         cls()
         print("ROUND -", self.currentRoundIndex+1)
         print("\n Q.)", question.text)
-        for i,o in enumerate(question.options):
-            print(f"{i}. {o}")
+        options = list(filter(bool, question.options.split(",")))
+        # Prints Question on Admin
+        for i,o in enumerate(options):
+            print(f"{i+1}. {o}")
 
+        # if flag: return
+        ans = askMCQ("Waiting for User to anser", ("Refresh", "EXIT"), lambda : self.renderQ(question))
+        if ans ==0 :
+            self.renderQ(question)
+        if ans == 1:
+            sys.exit(1)
+
+
+    def askQ(self, clientID:Participant.clientID, question: Question):
+        payload = createPayload("askQ", question.forParticipant())
+        self.server.sendTo(payload, clientID)
+        # ans = askMCQ(question.text, question.options, lambda:print(""))
+        self.renderQ(question)
 
     def addParticipant(self, args):
         """append a new `Participant` and Attach it events """

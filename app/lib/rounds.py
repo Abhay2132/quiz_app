@@ -37,6 +37,8 @@ class Round1(Round):
     admin:ADMIN = None
     __questions:tuple = None
     num_q = 5 # number of questions asked to each participant
+    currID=0
+    currQ=0
 
     def __init__(self, admin:ADMIN, questions:tuple) -> None:
         self.admin = admin
@@ -63,15 +65,13 @@ class Round1(Round):
         i=0
         ids = self.admin.participants.getClientIDs()
         pn = self.admin.participants.count()
+        
         for question in self.__questions:
-            self.askQ(ids[i], question)
+            self.currID = ids[i]
+            self.admin.askQ(self.currID, question)
             i = (i+1)%pn
             pass
 
-    def askQ(self, clientID:Participant.clientID, question):
-        """Send individual question to a participant"""
-        self.admin.askQ(clientID, question)
-        pass
 
     def onend(self):
         """Manage Score and Clean up"""
