@@ -71,14 +71,14 @@ class ServerSocket(EventEmitter):
         self.eventThread.start()
         pass
 
-    def sendTo(self, message:bytes,client_id=None):
+    def sendTo(self, message:bytes,clientID=None):
         if type(message) is str:
             message = bytes(message, encoding="utf-8")
 
-        if client_id not in self.clients:
+        if clientID not in self.clients:
             raise Exception("Client ID not found")
 
-        client_key = self.clients[client_id]
+        client_key = self.clients[clientID]
         data = client_key.data
         data.outb += message
 
@@ -110,7 +110,7 @@ class ServerSocket(EventEmitter):
         # HANDSHAKE STAGES # 1 -> Recieved | 2 -> Sent | 3 -> DONE
         self.sel.register(conn, EVENT_READ | EVENT_WRITE, data=data)
         self.clients[clientID] = SimpleNamespace(fileobj=conn, data=data)
-        self.emit("new-connection", addr)
+        self.emit("new-connection", clientID)
 
     def __handle_RW_events(self, key, mask):
         soc = key.fileobj
@@ -124,7 +124,7 @@ class ServerSocket(EventEmitter):
                     data.handshakeStage = 1
                     self.handshake(data)
                     return
-                self.emit("data-packet", recv)
+                self.emit("data-packet", {"clientID": data.clientID, "data": recv})
                 # print(f"recv {data.addr}: "+recv.decode("utf-8"))
                 # print(f"clients : {len(self.clients)}")
         if mask & EVENT_WRITE:
@@ -135,7 +135,7 @@ class ServerSocket(EventEmitter):
             # emit the `data` event and flushes the `inb` (input buffer)
             
             if data.inb:
-                self.emit("data", data.inb)
+                self.emit("data", {"clientID": data.clientID, "data": data.inb})
                 data.inb = b""
 
             sent = 0
@@ -147,11 +147,13 @@ class ServerSocket(EventEmitter):
             if data.handshakeStage == 2:
                 data.handshakeStage = 3 # handshake done
                 print("HANDSHAKE DONE With", data.addr)
+                self.emit("handshake-done")
         
     def _server_event_loop(self):
         print("server event_loop started")
         while not self.killThread:
             lastConnKey = None
+            
             try:
                 events = self.sel.select(timeout=None)
                 for key,mask in events:
@@ -168,7 +170,7 @@ class ServerSocket(EventEmitter):
                 print("Exiting by Keyboard Interrupt")
                 exit(1)
             except Exception as e:
-                print("Exiting : ", e)
+                print("Exiting (EventLoop) : ", e)
                 self._disconnect(lastConnKey)
             finally:
                 pass
@@ -177,16 +179,23 @@ class ServerSocket(EventEmitter):
         pass
 
     def _disconnect(self, key):
-        sock = key.fileobj
-        clientID = key.data.addr[1]
+        sock = None
+        clientID = None
+        if key.data is None:
+            return
+        try:
+            sock = key.fileobj
+            clientID = key.data.addr[1]
 
-        self.sel.unregister(sock)
-        sock.close()
+            self.sel.unregister(sock)
+            sock.close()
 
-        if clientID in self.clients:
-            self.clients.pop(clientID)
-        
-        self.emit("disconnected", clientID)
+            if clientID in self.clients:
+                self.clients.pop(clientID)
+        except Exception as e:
+            print("ERORR DURING _disconnect\n",e, repr(key))
+        else:
+            self.emit("disconnected", clientID)
 
 class ClientSocket(EventEmitter):
     sel = None
@@ -216,6 +225,7 @@ class ClientSocket(EventEmitter):
                 if recv == magicKey:
                     self.handshakeStage = 3
                     print("Handshake Done with", self.addr)
+                    self.emit("handshake-done")
                 else:
                     self.emit("handshake-error", Exception(f"MAGIC KEY DOES NOT MATCHES, {recv} != {magicKey}"))
             

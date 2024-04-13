@@ -1,9 +1,8 @@
 import sys
-from ..sockets import ClientSocket
+from ..lib.sockets import ClientSocket
 import os
 import platform
 import msvcrt
-
 
 def cls():
     if platform.system()in ('Linux', "Darwin"):
@@ -30,7 +29,6 @@ def prompt(title:str="", name:str=">> ")->str:
     val = input(name)
     return val
 
-
 def cycle(n,a,z):
     if n < a:return z
     if n > z: return a
@@ -54,7 +52,6 @@ def detectActionKey(logs):
             return 'left'
         elif b == b'M':
             return 'right'
-
 
 def askMCQ(title="", options=tuple(), header=None, footer=None)->int:
     """
@@ -89,7 +86,6 @@ def goBack(callback):
     def inner(**args):
         askMCQ(title="", options=["GO BACK"], header=callback)
     return inner
-
 
 if __name__ == "__main__":
     import msvcrt

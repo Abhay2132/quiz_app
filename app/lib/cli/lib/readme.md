@@ -1,1 +1,0 @@
-This Directory contains the python library which are used by both backend and frontend

@@ -7,9 +7,9 @@ if arg1 == "ui:admin":
     start()
 
 elif arg1 == "cli:admin":
-    from app.lib.cli.admin import main
+    from app.cli.admin import main
     main()
 
 elif arg1 == "cli:client":
-    from app.lib.cli.client import main
+    from app.cli.client import main
     main()
