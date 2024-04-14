@@ -3,10 +3,11 @@ from .qb import QuestionBank, Question
 from .sm import Scores
 from ..ui.admin.structs import _App
 from .sockets import ServerSocket,ClientSocket
+import os
 
 class ADMIN():
-    participants:Participants=None
-    qBank:QuestionBank=None
+    participants=Participants()
+    qBank=QuestionBank(qdir=os.path.join(os.getcwd(), "data", "questions"))
     scores:Scores=None
     ui:_App=None
     server:ServerSocket=None

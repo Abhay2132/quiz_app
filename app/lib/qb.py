@@ -12,6 +12,8 @@ class QuestionBank():
 
     def __init__(self, qdir:str) -> None:
         self.qdir = qdir
+        if not os.path.exists(self.qdir):
+            os.makedirs(self.qdir, exist_ok=True)
         self.load()
         pass
 

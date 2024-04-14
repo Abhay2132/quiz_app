@@ -3,6 +3,7 @@ from .utils import rc
 from tkinter import filedialog
 import os
 from PIL import Image
+import csv
 
 class ListItem(ctk.CTkFrame):
     
@@ -27,9 +28,25 @@ class ListItem(ctk.CTkFrame):
         self.l_name = ctk.CTkLabel(self,text=name, fg_color="transparent",font=('sans', 15))
         self.l_desc = ctk.CTkLabel(self, text="questions:0", fg_color="transparent", anchor="s", font=('sans', 12), height=15, text_color="#444")
         self.b_manage = ctk.CTkButton(self, text="MANAGE", command=self.click_manage, **commons)
-        self.b_upload = ctk.CTkButton(self, text="UPLOAD", **commons)
+        self.b_upload = ctk.CTkButton(self, text="UPLOAD", command=self.upload_csv, **commons)
         self.b_add = ctk.CTkButton(self, text="ADD",command=self.click_add, **commons)
 
+    def upload_csv(self):
+        """Opens a file dialog and displays the selected CSV file path.
+
+        Restricts selection to CSV files only.
+        """
+        file_path = filedialog.askopenfilename(
+            title="Select CSV File",
+            filetypes=[("CSV Files", "*.csv")]  # Only allow CSV files
+        )
+        if file_path:
+            # Process the selected CSV file here
+            print(f"You uploaded: {file_path}")
+            with open(file_path,'r',newline='')as q_file:
+                file_reader=csv.reader(q_file)
+                for quation in file_reader:
+                    print(quation)
     def click_manage(self):
         qb = QBFrame.me
         qb.setActiveFrame(qb.f_manage)
