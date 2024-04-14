@@ -19,6 +19,22 @@
             "program": "tests.py",
             "console": "integratedTerminal",
             "args": "ui:admin"
+        },
+        {
+            "name": "ui:user",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "tests.py",
+            "console": "integratedTerminal",
+            "args": "ui:user"
+        },
+        {
+            "name": "app:user",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "tests.py",
+            "console": "integratedTerminal",
+            "args": "app:user"
         }
     ]
 }

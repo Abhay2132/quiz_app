@@ -10,7 +10,7 @@ Admin Signals :-
 from .sockets import ServerSocket
 import csv
 import random
-from .admin import ADMIN
+from .struct import ADMIN
 from .qb import QuestionBank
 from .util import Participants,Participant
 

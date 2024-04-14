@@ -6,7 +6,7 @@ import os
 import csv
 from ..lib.rounds import Round1
 import json
-from ..lib.admin import ADMIN
+from ..lib.struct import ADMIN
 from ..lib.util import Participant, Participants, createPayload
 from ..lib.qb import QuestionBank, Question
 from ..lib.rounds import Round

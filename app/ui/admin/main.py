@@ -48,22 +48,27 @@ class SidePanel(_SideFrame):
         return btn
     
     def click_home(self):
+        app = App.me
         app.f_main.setActiveFrame(app.f_main.f_home)
         self.setActiveItem(self.b_home)
 
     def click_live(self):
+        app = App.me
         app.f_main.setActiveFrame(app.f_main.f_live)
         self.setActiveItem(self.b_live)
 
     def click_questions(self):
+        app = App.me
         app.f_main.setActiveFrame(app.f_main.f_qb)
         self.setActiveItem(self.b_qb)
 
     def click_participants(self):
+        app = App.me
         app.f_main.setActiveFrame(app.f_main.f_participants)
         self.setActiveItem(self.b_participants)
 
     def click_settings(self):
+        app = App.me
         app.f_main.setActiveFrame(app.f_main.f_settings)
         self.setActiveItem(self.b_settings)
 
@@ -116,10 +121,11 @@ class App(ctk.CTk):
     f_side:SidePanel=None
     f_side_width = 300
     # app:_App= None
+    me=None
 
     def __init__(self):
         super().__init__()
-
+        App.me = self
         self.geometry("800x600")
         self.after(10, lambda:self.state("zoomed"))
         self.grid_columnconfigure(1, weight=1)
@@ -129,8 +135,8 @@ class App(ctk.CTk):
         self.f_side = SidePanel(self, width=self.f_side_width, fg_color="#fff")
         self.f_main = MainPanel(self)
         
-        self.f_side.setActiveItem(self.f_side.b_qb)
-        self.f_main.setActiveFrame(self.f_main.f_qb)
+        self.f_side.setActiveItem(self.f_side.b_home)
+        self.f_main.setActiveFrame(self.f_main.f_home)
 
         _App.app=self
 
