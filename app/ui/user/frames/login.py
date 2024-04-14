@@ -1,7 +1,8 @@
 import customtkinter as ctk
+from ....lib.struct import USER
 
 # Entry and Login Panel (Enhanced)
-class Entery(ctk.CTkFrame):
+class Form(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master=master, fg_color='transparent',border_color="white",border_width=2, **kwargs)
 
@@ -24,8 +25,19 @@ class Entery(ctk.CTkFrame):
         # Create login button with better styling (optional)
         self.submit_b = ctk.CTkButton(self, text='Login',
                                       fg_color="blue",
-                                      hover_color="lightblue")
+                                      hover_color="lightblue",
+                                      command=self.click_submit
+                                      )
 
+    def click_submit(self):
+
+        name = str(self.e_userid.get()).strip()
+        # if len(name) < 3:
+        #     return print("ERROR : USERNAME SHOULD BE GREATER THAN 3 LETTERS")
+        user:USER = USER.me
+        user.setName(name)
+        user.client.connect()
+        # user.ui.mainpanel.setActiveFrame(user.ui.mainpanel.f_screensaver)
     
     def show(self):
             # Organize elements using grid for precise layout
@@ -47,7 +59,7 @@ class LoginFrame(ctk.CTkFrame):
             )
     def show(self):
         # Create an instance of the Entery class (enhanced)
-        self.entry = Entery(self)
+        self.entry = Form(self)
 
         # Place elements using grid for layout control
         self.title_page.grid(row=0, column=0, sticky='nsew', padx=20, pady=20)
@@ -58,5 +70,6 @@ class LoginFrame(ctk.CTkFrame):
         self.grid_columnconfigure(0, weight=1)  # Make the single column flexible
 
         # Use `pack` for optional padding and window filling
-        self.pack(fill=ctk.BOTH, expand=True, padx=20, pady=20)
+        # self.pack(fill=ctk.BOTH, expand=True, padx=20, pady=20)
+        self.grid(row=0, column=0, sticky="nswe", padx=20, pady=20)
 

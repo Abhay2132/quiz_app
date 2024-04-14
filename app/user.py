@@ -1,17 +1,23 @@
 from .ui.user.main import App
 from .lib.sockets import ClientSocket
 from .settings import addr
+from .lib.struct import USER
 
-class User():
-    app:App = None
-    client:ClientSocket = None
+class User(USER):
 
     def __init__(self) -> None:
-        self.app = App()
+        self.ui = App()
         self.client = ClientSocket(addr=addr)
+        self.client.on("handshake-done", lambda args: self.ui.mainpanel.setActiveFrame(self.ui.mainpanel.f_screensaver))
+        USER.me = self
 
     def start(self):
-        self.app.show()
+        self.ui.show()
+
+    def onHandshakeDone(self, args):
+        print("setting active Frame")
+        self.ui.mainpanel.setActiveFrame(self.ui.mainpanel.f_screensaver)
+
 
 def main():
     user = User()

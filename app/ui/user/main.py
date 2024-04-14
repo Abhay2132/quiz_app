@@ -15,7 +15,9 @@ class MainPanel(ctk.CTkFrame):
         app.mainpanel.activeframe.grid_forget()
         app.mainpanel.activeframe=frame
         app.mainpanel.activeframe.show()
+        
     def __init__(self,master,**kwargs):
+        
         super().__init__(master=master,fg_color="transparent",border_color="black",border_width=2,**kwargs)
         self.grid_columnconfigure(0,weight=1)
         self.grid_rowconfigure(0,weight=1)
@@ -25,8 +27,8 @@ class MainPanel(ctk.CTkFrame):
         self.f_round3=Round3(self)
         self.f_round4=Round4(self)
         self.f_screensaver=ScreenSaver(self)
-        
         self.activeframe=self.f_login
+        
     def show(self):
         self.activeframe.show()
         self.pack(fill=ctk.BOTH, expand=True,padx=20,pady=20)  # Fills and expands to center
@@ -38,7 +40,7 @@ class App(ctk.CTk):
     app = None
     def __init__(self, app=None, **kwargs):
         super().__init__(fg_color=None, **kwargs)
-        self.me = self
+        App.me = self
         self.app = app
         # self.geometry(f'{self.width}x{self.hight}')
         self.geometry("800x600")

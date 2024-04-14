@@ -2,7 +2,7 @@ from .util import Participants
 from .qb import QuestionBank, Question
 from .sm import Scores
 from ..ui.admin.structs import _App
-from .sockets import ServerSocket
+from .sockets import ServerSocket,ClientSocket
 
 class ADMIN():
     participants:Participants=None
@@ -10,6 +10,7 @@ class ADMIN():
     scores:Scores=None
     ui:_App=None
     server:ServerSocket=None
+    me=None
 
     def askQ(self,clientID, question:Question):
         pass
@@ -22,3 +23,12 @@ class ADMIN():
 
     def start(self):
         pass
+
+class USER():
+    client:ClientSocket=None
+    me=None
+    ui=None
+    name:str=None
+
+    def setName(self, name):
+        self.name = name
