@@ -23,6 +23,7 @@ class ListItem(ctk.CTkFrame):
         # self.grid_propagate(False)
         # transparent
         self.namevar = ctk.StringVar(value=name)
+        self.id = id
 
         self.e_name = ctk.CTkEntry(self, state=ctk.DISABLED, textvariable=self.namevar, fg_color="transparent",font=('sans', 15), border_width=0)
         self.l_id = ctk.CTkLabel(self, text=id, fg_color="transparent", anchor="s", font=('sans', 10), height=15, text_color="#555")
@@ -36,9 +37,13 @@ class ListItem(ctk.CTkFrame):
             self.e_name.focus()
         else:
             self.e_name.configure(state=ctk.DISABLED, border_width=0)
+
+            name = self.e_name.get()
+            clientID = self.id
+            admin:ADMIN= ADMIN.me
+            admin.setName(clientID, name)
             self.b_edit.configure(text="EDIT")
 
-        
     def show(self, r,c):
 
         self.e_name.grid(row=0, column=0, sticky="w", padx=20, pady=(5,0))
@@ -49,6 +54,9 @@ class ListItem(ctk.CTkFrame):
         # self.grid(row=r, column=c, sticky="we", padx=5, pady=5)
         self.pack(side=ctk.TOP, fill=ctk.X, padx=5, pady=(5,0))
 
+    def hide(self):
+        self.pack_forget()
+
 class List(ctk.CTkFrame):
     items = list()
     def __init__(self, master, **kwargs):
@@ -58,15 +66,15 @@ class List(ctk.CTkFrame):
         self.items.append(ListItem(self, name="GROUP-II", fg_color='transparent', border_width=2))
         self.items.append(ListItem(self, name="GROUP-III", fg_color='transparent', border_width=2))
         self.items.append(ListItem(self, name="GROUP-IV", fg_color='transparent', border_width=2))
-
         self.grid_columnconfigure(0, weight=1)
     
     def update(self):
+        for item in self.items:
+            item.hide()
         self.items.clear()
         admin:ADMIN = ADMIN.me
         for id, name in zip(admin.participants.getClientIDs(), admin.participants.getNames()):
             self.items.append(ListItem(self,id,name))
-
 
     def show(self):
         self.grid(row=1, column=0,sticky="nswe", padx=20)
@@ -88,8 +96,9 @@ class ParticipantsFrame(ctk.CTkFrame):
         """render children and current frame"""
 
         # self.        
+        self.list.update()
+        self.topbar.configure(text=f"Participants ({len(self.list.items)})")
         self.topbar.grid(row=0, column=0, sticky="we", padx=20, pady=10)
 
-        self.list.update()
         self.list.show()
         self.grid(row=0, column=0,padx=10, pady=10, sticky="nswe")

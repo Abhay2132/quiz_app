@@ -1,5 +1,7 @@
+import shutil
 from .sockets import ClientSocket
 import json
+import os
 
 class Participant():
     name=None
@@ -14,7 +16,6 @@ class Participants():
     __participants = dict()
 
     def add(self, p:Participant):
-        id = p.clientID
         self.__participants[p.clientID] = p
 
     def remove(self, clientID:Participant.clientID):
@@ -27,6 +28,9 @@ class Participants():
         if self.find(clientID):
             return self.__participants[clientID]
     
+    def at(self, index:int):
+        return self.__participants.get(self.getClientIDs()[index])
+
     def count(self):
         return len(self.__participants.keys())
     
@@ -37,7 +41,7 @@ class Participants():
         names = [self.__participants[i].name for i in self.__participants]
         return names
 
-def createPayload(action:str, data)->bytes:
+def createPayload(action:str, data:dict|str)->bytes:
     return bytes(json.dumps({"action":action, "data":data}), encoding="utf-8")
 
 
@@ -56,3 +60,24 @@ class UI:
     parent=None
     def show(self):
         pass
+
+def copy_file(source_path, destination_path, new_name):
+  """Copies a file from source to destination with a new name.
+
+  Args:
+      source_path (str): The path to the original file.
+      destination_path (str): The path to the destination directory.
+      new_name (str): The desired name for the copied file.
+  """
+
+  try:
+    # Construct the full destination path with the new name
+    # full_destination_path = f"{destination_path}/{new_name}"
+    full_destination_path = os.path.join(destination_path, new_name)
+
+    # Use shutil.copy2 to preserve file metadata (e.g., creation time)
+    shutil.copy2(source_path, full_destination_path)
+    print(f"File copied successfully: {source_path} -> {full_destination_path}")
+
+  except Exception as e:
+    print(f"Error copying file: {e}")

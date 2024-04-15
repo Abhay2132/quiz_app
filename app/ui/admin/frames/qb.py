@@ -3,7 +3,9 @@ from .utils import rc
 from tkinter import filedialog
 import os
 from PIL import Image
-import csv
+# import csv
+from ....lib.util import copy_file
+from ....lib.struct import ADMIN
 
 class ListItem(ctk.CTkFrame):
     
@@ -32,8 +34,8 @@ class ListItem(ctk.CTkFrame):
         self.b_add = ctk.CTkButton(self, text="ADD",command=self.click_add, **commons)
 
     def upload_csv(self):
-        """Opens a file dialog and displays the selected CSV file path.
-
+        """
+        Opens a file dialog and displays the selected CSV file path.
         Restricts selection to CSV files only.
         """
         file_path = filedialog.askopenfilename(
@@ -42,18 +44,23 @@ class ListItem(ctk.CTkFrame):
         )
         if file_path:
             # Process the selected CSV file here
-            print(f"You uploaded: {file_path}")
-            with open(file_path,'r',newline='')as q_file:
-                file_reader=csv.reader(q_file)
-                for quation in file_reader:
-                    print(quation)
+            admin:ADMIN = ADMIN.me
+            copy_file(file_path, admin.qBank.qdir, f"r{self.id}.csv")
+            admin.qBank.load()
+            qb=QBFrame.me
+            qb.selectedRound=self.id
+            qb.setActiveFrame(qb.f_manage)
+            pass
+
     def click_manage(self):
         qb = QBFrame.me
+        qb.selectedRound=self.id
         qb.setActiveFrame(qb.f_manage)
         qb.f_manage.setTitle("   MANAGE "+self.name+" ")
 
     def click_add(self):
         qb = QBFrame.me
+        qb.selectedRound=self.id
         qb.setActiveFrame(qb.f_add)
         qb.addSource = qb.f_rounds
 
@@ -184,8 +191,26 @@ class ManageQuestion(ctk.CTkFrame):
     search_type:str = None
     rows = list()
     questions:tuple=("What is TKINTEr", "What is python", "WHO IS ABHAY", "WHAT COMEs after 77")
+
     def load_questions(self):
-        pass
+        admin:ADMIN=ADMIN.me
+        qb:QBFrame = QBFrame.me
+        id = qb.selectedRound
+        if int(id) == 1:
+            questions = admin.qBank.round1
+        if int(id) == 2:
+            questions = admin.qBank.round2
+        if int(id) == 3:
+            questions = admin.qBank.round3
+        if int(id) == 4:
+            questions = admin.qBank.round4
+
+        for row in self.rows:
+            row.grid_forget()
+        
+        self.rows.clear()
+        for q in questions:
+            self.rows.append(self.createRow(self.f_questions, 0, q.qid, q.text,q.options,q.imgPath, "E"))
     
     def setTitle(self, title):
         self.l_title.configure(text=title)
@@ -251,6 +276,7 @@ class ManageQuestion(ctk.CTkFrame):
         pass
 
     def show(self):
+        self.load_questions()
         self.grid(row=0, column=0, sticky="nswe",pady=10)
 
         self.l_title.grid(row=0, column=0,pady=(10,0), sticky="w", padx=20)
@@ -294,7 +320,6 @@ class ManageQuestion(ctk.CTkFrame):
 
     def add_question(self):
         print("click add question")
-
 
 class QBFrame(ctk.CTkFrame):
     me=None

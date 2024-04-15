@@ -26,7 +26,7 @@ class QuestionBank():
                 if i ==0 : continue # skip header row
                 allQuestions.append(Question(*row))
                 pass
-            random.shuffle(allQuestions)
+            # random.shuffle(allQuestions)
             return tuple(allQuestions)
 
     def load(self):
@@ -45,12 +45,17 @@ class QuestionBank():
         if os.path.exists(files[3]):
             self.round4 = self.loadQfromCSV(files[3])
 
+        print("round1:",len(self.round1))
+        print("round2:",len(self.round2))
+        print("round3:",len(self.round3))
+        print("round4:",len(self.round4))
+
 class Question():
     """Data class for Question"""
     qid:str=None
     imgPath:str=None
     text:str=None
-    options:tuple = None
+    options:str = None
     answer:int=None
 
     def __init__(self, qid, text, options, answer, imgPath, *args) -> None:
@@ -61,10 +66,34 @@ class Question():
         self.imgPth = imgPath
     
     def forParticipant(self):
-        data = {
+        # data = {
+        #     "qid":self.qid,
+        #     "text":self.text,
+        #     "options":self.options,
+        #     "imgPath":self.imgPath
+        # }
+
+        return ClientQuestion(self.qid, self.text, self.options, self.imgPath)
+    
+class ClientQuestion():
+    def __init__(self, qid, text, options, imgPath) -> None:
+        self.qid = qid
+        self.text = text
+        self.options = options
+        self.imgPath = imgPath
+
+    def jsons(self):
+        return json.dumps({
             "qid":self.qid,
             "text":self.text,
             "options":self.options,
             "imgPath":self.imgPath
-        }
-        return data
+        })
+    
+    def loads(self, s):
+        data = json.loads(s)
+        self.qid=data.get("qid")
+        self.text=data.get("text")
+        self.options=str(data.get("qid")or"").split(",")
+        self.imgPath=data.get("imgPath")
+        return self

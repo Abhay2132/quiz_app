@@ -76,7 +76,7 @@ class ServerSocket(EventEmitter):
             message = bytes(message, encoding="utf-8")
 
         if clientID not in self.clients:
-            raise Exception("Client ID not found")
+            raise Exception(f"Client ID '{clientID}' not found")
 
         client_key = self.clients[clientID]
         data = client_key.data
@@ -181,7 +181,9 @@ class ServerSocket(EventEmitter):
     def _disconnect(self, key):
         sock = None
         clientID = None
+        
         if key.data is None:
+            print("No `data` attr found in `key`")
             return
         try:
             sock = key.fileobj
@@ -286,20 +288,21 @@ class ClientSocket(EventEmitter):
 
     def _client_event_loop(self):
         print("Client EVENT LOOP STARTED")
-        while True:
-            try:
+        try:
+            while True:
                 events = self.sel.select(timeout=None)
                 for key, mask in events:
                     self.__handle_RW_events(key, mask)
-            except KeyboardInterrupt:
-                print("exiting (client) by keyboard interrupt")
-                exit(2)
-            except Exception as e:
-                print("Exiting (client): " , e)
-                self.emit("error", e)
-                self.sel.close()
-            finally:
-                pass
+        except KeyboardInterrupt:
+            print("exiting (client) by keyboard interrupt")
+            exit(2)
+        except Exception as e:
+            print("Exiting (client): " , e)
+            self.emit("error", e)
+            self.sel.close()
+            self.emit("disconnected")
+        finally:
+            pass
             
 if __name__ == "__main__":
     ee = EventEmitter()

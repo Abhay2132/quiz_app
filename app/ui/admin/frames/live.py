@@ -1,8 +1,14 @@
 import customtkinter as ctk
 from random import choice
 from ..structs import _App
+from ....lib.struct import ADMIN
+from ...rounds.round1 import Round1
+from ...rounds.round2 import Round2
+from ...rounds.round3 import Round3
+from ...rounds.round4 import Round4
 
 class StartFrame(ctk.CTkFrame):
+
     def __init__(self, master, **kw):
         super().__init__(master=master, fg_color="transparent", **kw)
 
@@ -60,10 +66,17 @@ class RoundsFrame(ctk.CTkFrame):
         self.grid_rowconfigure(1, weight=1)
         self.l_title = ctk.CTkLabel(self, text="MODULES", anchor="w" )
         self.b_home = ctk.CTkButton(self, text=" < HOME" , hover_color="#eef", width=120,height=33,font=("Roboto", 15), fg_color="#fff" , text_color="#333", border_width=2, command=self.home_clicked)
-        self.b_start = ctk.CTkButton(self, text="START >", hover_color="#eef", width=120,height=33,font=("Roboto", 15), fg_color="#fff", text_color="#333", border_width=2)
+        self.b_start = ctk.CTkButton(self, text="START >", hover_color="#eef", width=120,height=33,font=("Roboto", 15), fg_color="#fff", text_color="#333", border_width=2, command=self.start_clicked)
 
         self.f_rounds = Rounds(self)
         # self.f_modules= ctk.CTkFrame(self , border_width=2)
+
+    def start_clicked(self):
+        admin:ADMIN = ADMIN.me
+        admin.start_quiz()
+        lf:LiveFrame = LiveFrame.me
+        lf.setActiveFrame(lf.f_play)
+        pass
 
     def home_clicked(self):
         app:_App = _App.app
@@ -96,7 +109,6 @@ class Participants(ctk.CTkFrame):
         self.b_refresh = ctk.CTkButton(self, text="", width=30, border_width=2, fg_color="#fff", hover_color="#eee", command=self.refresh_action)
 
         users = ["USER1", "USER2", "USER3", "USER4"]
-        colors = ["red", "#349", "lightgreen", "orange"]
         self.l_users = []
         self.f_users = ctk.CTkFrame(self, fg_color="transparent")
 
@@ -117,29 +129,104 @@ class Participants(ctk.CTkFrame):
         app.f_main.setActiveFrame(app.f_main.f_participants)
         app.f_side.setActiveItem(app.f_side.b_participants)
 
+    def updateList(self):
+        admin:ADMIN=ADMIN.me
+
+        for l_user in self.l_users:
+            l_user.grid_forget()
+        self.l_users.clear()
+        for name in admin.participants.getNames():   
+            label = ctk.CTkButton(self.f_users, text="      "+name, font=("Helvetica", 12), border_width=2, fg_color="#eee", text_color="#333", height=35, border_color="#888", hover_color="#fff", anchor="w")     
+            self.l_users.append(label)
+        pass    
+
     def show(self):
+        self.updateList()
         self.grid(row=0, column=1, sticky="ns", padx=10, pady=10)
         
-        self.l_title.grid(column=0, row=0, sticky="w", padx=10)
-        self.b_refresh.grid(column=1, row=0, sticky="e", padx=10, pady=10)
+        self.l_title.grid(column=0, row=0, sticky="w", padx=10, pady=10)
+        # self.b_refresh.grid(column=1, row=0, sticky="e", padx=10, pady=10)
         for i,label in enumerate(self.l_users):
             label.grid(row=i, column=0, sticky="we", pady=(5,0))
         self.f_users.grid(row=1, column=0, columnspan=2, sticky="ns", pady=(20,10))
         self.b_manage.grid(row=2, column=0, sticky="e", pady=10, columnspan=2, padx=10)
 
+class PlayFrame(ctk.CTkFrame):
+    curr_round=None
+    roundUIs=list()
+
+    def setCurrRound(self, round):
+        if self.curr_round: self.curr_round.hide()
+        self.curr_round=round
+        self.curr_round.show()
+
+    def __init__(self, master, **kwargs):
+        super().__init__(master=master, **kwargs)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+        self.f_body = ctk.CTkFrame(self, fg_color="#eee",corner_radius=0)
+        self.f_body.grid_columnconfigure(0, weight=1)
+        self.f_body.grid_rowconfigure(0, weight=1)
+
+        self.f_info = ctk.CTkLabel(self,fg_color="#fff", height=40, font=("Roboto", 15),corner_radius=5, anchor="w", text=f"     GROUP-I         Questions : 1 / 5")
+        self.f_controls = ctk.CTkFrame(self, fg_color="#fff", height=40, width=0)
+        
+        self.b_play=ctk.CTkButton(self.f_controls, text="⏸️", width=30, height=30)
+        self.b_pre_question=ctk.CTkButton(self.f_controls, text="⏮️", width=30, height=30)
+        self.b_next_question=ctk.CTkButton(self.f_controls, text="⏭️", width=30, height=30, command=self.askNext)
+        self.b_right=ctk.CTkButton(self.f_controls, text="✅", width=30, height=30)
+        self.b_wrong=ctk.CTkButton(self.f_controls, text="❌", width=30, height=30)
+
+        self.roundUIs.append(Round1(self.f_body, True))
+        self.roundUIs.append(Round2(self.f_body, True))
+        self.roundUIs.append(Round3(self.f_body, True))
+        self.roundUIs.append(Round4(self.f_body, True))
+        self.curr_round=self.roundUIs[0]
+
+    def askNext(self):
+        admin:ADMIN = ADMIN.me
+        admin.currentRound.askNextQ()
+
+    def show(self):
+        self.grid(row=0, column=0, sticky="nswe")
+        self.f_body.grid(row=0, column=0, sticky="nswe", columnspan=5)
+        self.f_info.grid(row=1, column=0, sticky="we", padx=10, )
+        self.f_controls.grid(row=1, column=1, padx=(0,10), pady=10)
+
+        self.b_play.grid(row=0, column=0, pady=5,padx=5)
+        self.b_pre_question.grid(row=0, column=1, pady=5,padx=(0,5))
+        self.b_next_question.grid(row=0, column=2, pady=5,padx=(0,5))
+        self.b_right.grid(row=0, column=3, pady=5, padx=(0,5))
+        self.b_wrong.grid(row=0, column=4, pady=5, padx=(0,5))
+
+        self.curr_round.show()
+        pass
+
+    def hide(self):
+        pass
+
 class LiveFrame(ctk.CTkFrame):
+    me=None
+    activeFrame:ctk.CTkFrame=None
+    f_play:PlayFrame=None
+    f_start:StartFrame=None
+    def setActiveFrame(self, frame):
+        if self.activeFrame: self.activeFrame.grid_forget()
+        self.activeFrame=frame
+        self.activeFrame.show()
+
     def __init__(self, master, app, **kw):
         super().__init__(master=master,fg_color="#eee", **kw)
-        
+        LiveFrame.me = self
         self.app = app
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
         self.f_start = StartFrame(self)
+        self.f_play = PlayFrame(self)
+        # self.activeFrame = self.f_play
+        self.activeFrame = self.f_start
 
     def show(self):
-        # self.label.place(relx=0.5, rely=0.5)
-        
-        self.f_start.show()
-
+        self.activeFrame.show()
         self.grid(row=0, column=0, sticky="nswe")
 

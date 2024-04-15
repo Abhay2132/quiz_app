@@ -3,7 +3,7 @@
 class Scores():
     """Score Mangaer Class"""
     
-    __scores:dict = None
+    __scores= dict()
 
     def __init__(self, IDs) -> None:
         for id in IDs:

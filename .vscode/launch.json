@@ -5,6 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "app:admin",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "tests.py",
+            "console": "integratedTerminal",
+            "args": "app:admin"
+        },
+        {
             "name": "cli:admin",
             "type": "debugpy",
             "request": "launch",

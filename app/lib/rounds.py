@@ -13,39 +13,25 @@ import random
 from .struct import ADMIN
 from .qb import QuestionBank
 from .util import Participants,Participant
-
-class Round():
-    admin:ADMIN=None
-    __questions = tuple()
-    num_q = 5
-    currentParticipant:int=0
-    currentQuestion:int=0
-
-    def loadQ():
-        pass
-
-    def start():
-        pass
-    
-    def askQ():
-        pass
-
-    def onend():
-        pass
+from .struct import Round
+from .qb import ClientQuestion, Question
+from .sm import Scores
+from .util import createPayload
 
 class Round1(Round):
-    admin:ADMIN = None
-    __questions:tuple = None
-    num_q = 5 # number of questions asked to each participant
-    currID=0
-    currQ=0
+    name="Straight Forward"
+    mark=10
+    minusMark=0
 
-    def __init__(self, admin:ADMIN, questions:tuple) -> None:
-        self.admin = admin
-        # self.qPath = qPath
-        self.__questions=questions
-        # self.loadQ()
-        pass
+    def __init__(self,admin) -> None:
+
+        self.admin:ADMIN = admin
+        self.__questions = tuple(self.admin.qBank.round1)
+
+        print(len(self.__questions))
+
+    def loadQ(self):
+        return super().loadQ()
 
     def loadQ(self):
         """Load current round question from given and other settings"""
@@ -53,7 +39,6 @@ class Round1(Round):
         # reader = csv.reader(f)
         allQuestions = list(self.__questions)
         required_q = self.num_q*self.admin.participants.count()
-
         if len(allQuestions) < required_q:
             raise Exception("NUMBER OF QUESTIONs in DB is less than participants")
         random.shuffle(allQuestions)
@@ -63,16 +48,55 @@ class Round1(Round):
         """Starting sending questions to clients and managing score"""
         self.loadQ()
         i=0
-        ids = self.admin.participants.getClientIDs()
-        pn = self.admin.participants.count()
-        
-        for question in self.__questions:
-            self.currID = ids[i]
-            self.admin.askQ(self.currID, question)
-            i = (i+1)%pn
-            pass
+        self.admin.server.broadcast(createPayload("setround", 1))
+        self.askQ()
+        self.curr_scores=Scores(self.admin.participants.getClientIDs())
 
+    def askQ(self):
+        participantID = self.admin.participants.getClientIDs()[self.currentParticipant]
+        question:Question = self.__questions[self.currentQuestion]
+        self.admin.askQ(participantID, question.forParticipant())
+
+    def askNextQ(self):
+        self.currentParticipant = (self.currentParticipant+1)%self.admin.participants.count()
+        self.currentQuestion += 1
+        if self.currentQuestion >= len(self.__questions):
+            self.onend()
+            return
+        self.askQ()
 
     def onend(self):
         """Manage Score and Clean up"""
+        
         pass
+
+class Round2(Round):
+
+    name="Bujho Toh Jano"
+    def __init__(self,admin) -> None:
+        self.admin:ADMIN = admin
+        self.__questions = tuple(self.admin.qBank.round2)
+
+
+    def loadQ(self):
+        return super().loadQ()
+
+class Round3(Round):
+    name="Roll the Dice"
+    def __init__(self,admin) -> None:
+        self.admin:ADMIN = admin
+        self.__questions = tuple(self.admin.qBank.round3)
+
+    def loadQ(self):
+        return super().loadQ()
+
+class Round4(Round):
+
+    name="Straight Forward"
+    def __init__(self,admin) -> None:
+        self.admin:ADMIN = admin
+        self.__questions = tuple(self.admin.qBank.round4)
+
+    def loadQ(self):
+        return super().loadQ()
+

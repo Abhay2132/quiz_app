@@ -135,8 +135,8 @@ class App(ctk.CTk):
         self.f_side = SidePanel(self, width=self.f_side_width, fg_color="#fff")
         self.f_main = MainPanel(self)
         
-        self.f_side.setActiveItem(self.f_side.b_home)
-        self.f_main.setActiveFrame(self.f_main.f_home)
+        self.f_side.setActiveItem(self.f_side.b_live)
+        self.f_main.setActiveFrame(self.f_main.f_live)
 
         _App.app=self
 

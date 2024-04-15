@@ -1,10 +1,10 @@
 import customtkinter as ctk
 from .frames.screen_saver import ScreenSaver
 from .frames.login import LoginFrame
-from .frames.round1 import Round1
-from .frames.round2 import Round2
-from .frames.round3 import Round3
-from .frames.round4 import Round4
+from ..rounds.round1 import Round1
+from ..rounds.round2 import Round2
+from ..rounds.round3 import Round3
+from ..rounds.round4 import Round4
 
 ctk.set_appearance_mode('light')
 
@@ -23,7 +23,7 @@ class MainPanel(ctk.CTkFrame):
         self.grid_rowconfigure(0,weight=1)
         self.f_login=LoginFrame(self)
         self.f_round1=Round1(self)
-        self.f_round=Round2(self)
+        self.f_round2=Round2(self)
         self.f_round3=Round3(self)
         self.f_round4=Round4(self)
         self.f_screensaver=ScreenSaver(self)
@@ -38,6 +38,8 @@ class App(ctk.CTk):
     hight,width=400,800
     me =None
     app = None
+    activeRound=None
+
     def __init__(self, app=None, **kwargs):
         super().__init__(fg_color=None, **kwargs)
         App.me = self
