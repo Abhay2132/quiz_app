@@ -1,9 +1,9 @@
-
+import json
 
 class Scores():
     """Score Mangaer Class"""
     
-    __scores= dict()
+    __scores= dict() # client ID -> SCORE
 
     def __init__(self, IDs) -> None:
         for id in IDs:
@@ -24,4 +24,8 @@ class Scores():
 
     def getUserIDs(self):
         return tuple(self.__scores.keys())
+    
+    def toString(self):
+        return json.dumps(self.__scores)
+        pass
     pass

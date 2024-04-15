@@ -50,6 +50,9 @@ class ADMIN():
     def askQ(self,clientID, question:ClientQuestion):
         pass
 
+    def askAll(self, question):
+        pass
+
     def checkQ(self, question)->bool:
         pass
 

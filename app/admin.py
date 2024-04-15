@@ -9,6 +9,8 @@ from .settings import addr
 from .lib.util import Participant, createPayload
 from .lib.rounds import Round1, Round2, Round3, Round4
 import os
+from .ui.admin.frames.live import PlayFrame
+
 class Admin(ADMIN):
 
     def __init__(self, ) -> None:
@@ -67,12 +69,19 @@ class Admin(ADMIN):
         self.server.start()
         self.ui.show()
 
+    def askAll(self, question:ClientQuestion):
+        pass
+        # return super().askAll(question)()
+
     def start_quiz(self):
         
         self.quiz_started=True
         self.num_participants = self.participants.count()
         self.currentRound.start()
         self.scores = Scores(self.participants.getClientIDs())
+    
+        pf:PlayFrame = PlayFrame.me
+        pf.setCurrRound(pf.roundUIs[0])
         pass
 
         # self.roundUIs = (Round1(self.ui.f_main.f_live.f_play.))

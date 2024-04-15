@@ -154,14 +154,20 @@ class Participants(ctk.CTkFrame):
 class PlayFrame(ctk.CTkFrame):
     curr_round=None
     roundUIs=list()
-
+    me=None
+    
+    # self.
     def setCurrRound(self, round):
         if self.curr_round: self.curr_round.hide()
         self.curr_round=round
         self.curr_round.show()
 
+    def setInfo(self, name, question):
+        self.f_info.configure(text=f"     {name}         {question}")
+
     def __init__(self, master, **kwargs):
         super().__init__(master=master, **kwargs)
+        PlayFrame.me = self
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
         self.f_body = ctk.CTkFrame(self, fg_color="#eee",corner_radius=0)
@@ -172,16 +178,27 @@ class PlayFrame(ctk.CTkFrame):
         self.f_controls = ctk.CTkFrame(self, fg_color="#fff", height=40, width=0)
         
         self.b_play=ctk.CTkButton(self.f_controls, text="⏸️", width=30, height=30)
-        self.b_pre_question=ctk.CTkButton(self.f_controls, text="⏮️", width=30, height=30)
+        # self.b_pre_question=ctk.CTkButton(self.f_controls, text="⏮️", width=30, height=30)
         self.b_next_question=ctk.CTkButton(self.f_controls, text="⏭️", width=30, height=30, command=self.askNext)
-        self.b_right=ctk.CTkButton(self.f_controls, text="✅", width=30, height=30)
-        self.b_wrong=ctk.CTkButton(self.f_controls, text="❌", width=30, height=30)
+        self.b_right=ctk.CTkButton(self.f_controls, text="✅", width=30, height=30, command=self.mark_right)
+        self.b_wrong=ctk.CTkButton(self.f_controls, text="❌", width=30, height=30, command=self.mark_wrong)
 
         self.roundUIs.append(Round1(self.f_body, True))
         self.roundUIs.append(Round2(self.f_body, True))
         self.roundUIs.append(Round3(self.f_body, True))
         self.roundUIs.append(Round4(self.f_body, True))
+
         self.curr_round=self.roundUIs[0]
+
+    def mark_right(self):
+        admin:ADMIN = ADMIN.me
+        admin.currentRound.mark_right()
+        pass
+
+    def mark_wrong(self):
+        # admin:ADMIN = ADMIN.me
+        ADMIN.me.currentRound.mark_wrong()
+        pass
 
     def askNext(self):
         admin:ADMIN = ADMIN.me
@@ -194,8 +211,8 @@ class PlayFrame(ctk.CTkFrame):
         self.f_controls.grid(row=1, column=1, padx=(0,10), pady=10)
 
         self.b_play.grid(row=0, column=0, pady=5,padx=5)
-        self.b_pre_question.grid(row=0, column=1, pady=5,padx=(0,5))
-        self.b_next_question.grid(row=0, column=2, pady=5,padx=(0,5))
+        # self.b_pre_question.grid(row=0, column=1, pady=5,padx=(0,5))
+        self.b_next_question.grid(row=0, column=1, pady=5,padx=(0,5))
         self.b_right.grid(row=0, column=3, pady=5, padx=(0,5))
         self.b_wrong.grid(row=0, column=4, pady=5, padx=(0,5))
 

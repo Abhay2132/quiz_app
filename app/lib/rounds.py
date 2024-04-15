@@ -17,26 +17,24 @@ from .struct import Round
 from .qb import ClientQuestion, Question
 from .sm import Scores
 from .util import createPayload
+from ..ui.admin.frames.live import PlayFrame
 
 class Round1(Round):
     name="Straight Forward"
     mark=10
     minusMark=0
+    lastQuestionMarked=False
 
     def __init__(self,admin) -> None:
 
+        # super().__init__(admin)
         self.admin:ADMIN = admin
         self.__questions = tuple(self.admin.qBank.round1)
 
         print(len(self.__questions))
 
     def loadQ(self):
-        return super().loadQ()
-
-    def loadQ(self):
-        """Load current round question from given and other settings"""
-        # with open(self.qPath,"r") as f:
-        # reader = csv.reader(f)
+        """Load current round question from given question set and shuffle them"""
         allQuestions = list(self.__questions)
         required_q = self.num_q*self.admin.participants.count()
         if len(allQuestions) < required_q:
@@ -56,8 +54,13 @@ class Round1(Round):
         participantID = self.admin.participants.getClientIDs()[self.currentParticipant]
         question:Question = self.__questions[self.currentQuestion]
         self.admin.askQ(participantID, question.forParticipant())
+        pf:PlayFrame = PlayFrame.me
+        name = self.admin.participants.getNames()[self.currentParticipant]
+        pf.setInfo(name, f"Question : {self.currentQuestion+1}/{len(self.__questions)}")
 
     def askNextQ(self):
+        if not self.lastQuestionMarked : return
+        self.lastQuestionMarked = False
         self.currentParticipant = (self.currentParticipant+1)%self.admin.participants.count()
         self.currentQuestion += 1
         if self.currentQuestion >= len(self.__questions):
@@ -65,9 +68,19 @@ class Round1(Round):
             return
         self.askQ()
 
+    def mark_right(self):
+        self.lastQuestionMarked=True
+        participantID = self.admin.participants.getClientIDs()[self.currentParticipant]
+        self.curr_scores.add(participantID, self.mark)
+
+    def mark_wrong(self):
+        self.lastQuestionMarked=True
+        participantID = self.admin.participants.getClientIDs()[self.currentParticipant]
+        self.curr_scores.add(participantID, self.mark)
+
     def onend(self):
-        """Manage Score and Clean up"""
-        
+        """Add scores to main and start next Round"""
+        print(self.curr_scores.toString())
         pass
 
 class Round2(Round):
@@ -77,10 +90,24 @@ class Round2(Round):
         self.admin:ADMIN = admin
         self.__questions = tuple(self.admin.qBank.round2)
 
-
     def loadQ(self):
-        return super().loadQ()
+        """Load current round question from given and other settings"""
+        allQuestions = list(self.__questions)
+        required_q = self.num_q*self.admin.participants.count()
+        if len(allQuestions) < required_q:
+            raise Exception("NUMBER OF QUESTIONs in DB is less than participants")
+        random.shuffle(allQuestions)
+        self.__questions = tuple(allQuestions[0:required_q])
 
+    def start(self):
+        pass
+
+    def askQ():
+        pass
+
+    def askNextQ(self):
+        pass
+    
 class Round3(Round):
     name="Roll the Dice"
     def __init__(self,admin) -> None:
