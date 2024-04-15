@@ -9,6 +9,7 @@ from ....lib.struct import ADMIN
 
 class ListItem(ctk.CTkFrame):
     
+    id:int=None
     def __init__(self, master, id, name="", **kwargs):
         super().__init__(master, **kwargs)
         self.configure(height=60)
@@ -64,6 +65,19 @@ class ListItem(ctk.CTkFrame):
         qb.setActiveFrame(qb.f_add)
         qb.addSource = qb.f_rounds
 
+    def update_questions_count(self):
+        admin:ADMIN=ADMIN.me
+        count= 0
+        if self.id==1:
+            count= len(admin.qBank.round1)
+        if self.id==2:
+            count= len(admin.qBank.round2)
+        if self.id==3:
+            count= len(admin.qBank.round3)
+        if self.id==4:
+            count= len(admin.qBank.round4)
+        self.l_desc.configure(text="Question:"+str(count))
+
     def show(self, r,c):
 
         self.l_name.grid(row=0, column=0, sticky="w", padx=20, pady=(5,0))
@@ -74,6 +88,7 @@ class ListItem(ctk.CTkFrame):
 
         # self.grid(row=r, column=c, sticky="we", padx=5, pady=5)
         self.pack(side=ctk.TOP, fill=ctk.X, padx=(0,10), pady=(5,0))
+        self.update_questions_count()
 
 class List(ctk.CTkFrame):
     items = list()
@@ -206,7 +221,7 @@ class ManageQuestion(ctk.CTkFrame):
             questions = admin.qBank.round4
 
         for row in self.rows:
-            row.grid_forget()
+            row.destroy()
         
         self.rows.clear()
         for q in questions:
@@ -343,10 +358,12 @@ class QBFrame(ctk.CTkFrame):
         self.f_add = AddQuestion(self)
         self.f_manage = ManageQuestion(self)
 
-        self.setActiveFrame(self.f_rounds)
+        self.activeFrame=self.f_rounds
         QBFrame.me = self
 
     def show(self):
         """render children and current frame"""
         # self.f_rounds.show()
+        # self.setActiveFrame(self.f_rounds)
+        self.f_rounds.show()
         self.grid(row=0, column=0,padx=10, pady=10, sticky="nswe")

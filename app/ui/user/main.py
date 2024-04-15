@@ -12,7 +12,7 @@ class MainPanel(ctk.CTkFrame):
     f_login=None
     def setActiveFrame(self,frame):
         app = App.me
-        app.mainpanel.activeframe.grid_forget()
+        app.mainpanel.activeframe.hide()
         app.mainpanel.activeframe=frame
         app.mainpanel.activeframe.show()
         
@@ -45,6 +45,7 @@ class App(ctk.CTk):
         App.me = self
         self.app = app
         # self.geometry(f'{self.width}x{self.hight}')
+        self.title("PARTICIPANT")
         self.geometry("800x600")
         self.after(10, lambda:self.state("zoomed"))
 

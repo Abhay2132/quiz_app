@@ -10,3 +10,5 @@ class ScreenSaver(ctk.CTkFrame):
         self.screen_wairt.grid(row=0,column=0,padx=300,pady=20,sticky='we')
         self.grid(row=0,column=0,padx=20,pady=20,sticky='nswe')
         
+    def hide(self):
+        self.grid_forget()

@@ -1,11 +1,31 @@
-﻿qid,text,options,answer,imgPath
-1,what is the process at the most detailed level of the data flow diagrams known as,"Interfaces,functional primitives,data flow,transform descriptions",2,""
-2,Total bits used by the IPv6 address is ________,"64 bit,256 bit,128 bit,32 bit",3,""
-3,Identify the language which is mainly used for Artificial Intelligence,"Java,J2EE,Prolog,C",3,""
-4,Why is a firewall used in a computer,"Monitoring,data transmission,Authentication,security",4,""
-5,The full form of DOM is,"Document-oriented memory,document object model,document object memory,none",2,""
-6,How many levels are there in the architecture of the database?,"2,3,4,5",3,""
-7,Among the following which is not a database management software,"MySQL,COBOL,Sybase,Oracle",2,""
-8,Identify the total standard color names that HTML supports.,"30, 70, 140, 120",3,""
-9,Choose the port number of FTP.,"23,21,110, 143",2,""
-10,Total number of layers in OSI model is ___________,"5,7,9,11",2,""
+qid,text,options,answer,imgPath
+1,what is the name of this actor?,"Ajay Devgan, Akshay Kumar,Sunil shetty,Anil kapoor",1,ajaydevgan.jpg
+2,What is the name of this flower?,"Lilies,Daisies,Roses,Lotus",3,gardener.png
+3,What is the name of this cryptocurrency or decentralized digital currency?,"Ethereum,Bitcoin,NFT,XRP",2,bitcoin.png
+4,What is the name of this automotive brand?,"BMW,Volkswagen,Citroen,Creta",1,car.png
+5,What is the name of this fictional cat?,"Doraemon,Hello Kitty,Totoro,chota hathi",1,cartoon.png
+6,What is the name of this dog breed?,"Beagle,German Shepherd,Golden Retriever,German shepherd",3,dog.png
+7,What is the name of this coffee shop brand?,"Tchibo,Starbucks,Stumptown Coffee Roasters,The Twitter Beans",2,brand.png
+8,"What is the name of this traditional garment, which is the national dress of Viet Nam?","Ao dai,Hanbok,Kimono,hui sai",1,dress.png
+9,What is the name of this gemstone?,"Ruby,Sapphire,Emerald,Rubies",1,germs.png
+10,What is the name of this cake?,"Brownie,Red velvet,Carrot,Pineapple Upside Down",1,cake.png
+11,This is the area view of which city in the United States?,"Los Angeles,Chicago,Mumbai,New York City",4,city.png
+12,What is the name of this famous noodle?,"Ramen- Japan,Japchae- Korea,Bun Bo Hue � Viet Nam,Laksa-Malaysia, Singapore",3,noodle.png
+13,Name these famous logos,"McDonald�s  Nike Starbucks Twitter,KFC Adidas  Starbucks  Twitter ,Chicken Texas Nike Starbucks Instagram, none of these",1,logo.png
+14,This is the flag of which country?,"Spain,China,Denmark,India",3,flag.png
+15,What is the name of this sport?,"tennis,football,baseball,cricket",4,sport.png
+16, This statue is the award for which prestigious and famous event?,"The Grammy Award,The Pulitzer Prize,The Oscars,The india award",3,award.png
+17,What kind of instrument is this?,"Guitar,Piano,Cello,bean",1,instrument.png
+18,Which famous female singer is this?,"Ariana Grande,Taylor Swift,Katy Perry,Madonna",1,singer.png
+19, Can you tell me the name of this best 80s sci-fi movie poster?,"The Terminator (1984) ,E.T. the Extra-terrestrial (1982),Back to the Future (1985),None Of These",2,poster.png
+20,what is the name of this fruit?,"Apple,Guava,Grapes,Banana",4,fruit.png
+21,Name this vegetable____,"papaya,onion,capsicum,Ladyfinger",2,vegetable.png
+22,Name this Actress___,"Parneeti chopra,Priyanka Chopra,Aliya Bhatt,Ananya Pandey",2,priyanka.png
+23,what is the name of Fruit name?,"Grapes,Guava,Musk Melon, water melon",4,watermelon.png
+24,What is the name of this cake?,"Brownie,Red velvet,Carrot,Pineapple Upside Down",1,cake.png
+25,What is the name of this flower?,"Lilies,Daisies,Roses,Lotus",3,gardener.png
+26,What is the name of this fictional cat?,"Doraemon,Hello Kitty,Totoro,chota hathi",1,cartoon.png
+27,What is the name of this coffee shop brand?,"Tchibo,Starbucks,Stumptown Coffee Roasters,The Twitter Beans",2,brand.png
+28,This is the flag of which country?,"Spain,China,Denmark,India",3,flag.png
+29,What kind of instrument is this?,"Guitar,Piano,Cello,bean",1,instrument.png
+30,Which famous female singer is this?,"Ariana Grande,Taylor Swift,Katy Perry,Madonna",1,singer.png

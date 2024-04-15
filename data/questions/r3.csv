@@ -1,11 +1,32 @@
-﻿qid,text,options,answer,imgPath
-1,what is the process at the most detailed level of the data flow diagrams known as,"Interfaces,functional primitives,data flow,transform descriptions",2,""
-2,Total bits used by the IPv6 address is ________,"64 bit,256 bit,128 bit,32 bit",3,""
-3,Identify the language which is mainly used for Artificial Intelligence,"Java,J2EE,Prolog,C",3,""
-4,Why is a firewall used in a computer,"Monitoring,data transmission,Authentication,security",4,""
-5,The full form of DOM is,"Document-oriented memory,document object model,document object memory,none",2,""
-6,How many levels are there in the architecture of the database?,"2,3,4,5",3,""
-7,Among the following which is not a database management software,"MySQL,COBOL,Sybase,Oracle",2,""
-8,Identify the total standard color names that HTML supports.,"30, 70, 140, 120",3,""
-9,Choose the port number of FTP.,"23,21,110, 143",2,""
-10,Total number of layers in OSI model is ___________,"5,7,9,11",2,""
+qid,text,options,answers,imgPath
+1,"
+What is the process at the most detailed level of the data flow diagrams known as?","interfaces,functional primitives,data flow, transform descriptions",2,
+2,How many bits make a byte?,"24 bits,16 bits,8 bits,12 bits",3,
+3,The first search engine on the internet is,"Archie,Google,Bing,Yahoo",1,
+4,The number of bits used by IPv6 address is,"16, 32,64,128",4,
+5,The first web browser invented in 1990 was,"WorldWideWeb, Internet Explorer,Mosaic,Nexus",1,
+6,Which technology is used to record cryptocurrency transactions?,"Mining,Digital wallet,Blockchain technology,Token",3,
+7,One of the advantages of information technology is,"Streamline communication,Easy to handle,Both a and b,None",1,
+8,The first computer virus was known as,"Rabbit,Elk cloner,SCA virus,Creeper program",4,
+9,What technology is used to make telephone calls over the Internet possible?,"VoIP ,Bluetooth,Ethernet,All of the above",1,
+10,What is the full form of (CPU)?,"Central Processing Unit,Critical Processing Unit,Crucial Processing Unit,Central Printing Unit",1,
+11,The process of starting or restarting a computer is called:,"Start up point,Booting,Connecting,Resetting",2,
+12,The other name for a Hard disk is: ,"Compact Disc,Fixed Disk,Hard Drive Disk,Floppy Disk",3,
+13,Which component is often referred to as the 'brain' of the motherboard?,"Processor,Bios,Computer Chip,Transistor",1,
+14,Which of the items is an input device?,"Computer Monitor,Keyboard,Display Board,Overhead Projector",2,
+15,The System unit is referred to as the:,"Central Processing Unit,The Heart of the Computer,The hard drive,System Software",2,
+16,The largest key on the Keyboard is ,"Shift,Space bar,Escape,Tab",2,
+17,Who invented C++?,"Dennis Ritchie,Ken Thompson,Brian Kernighan, Bjarne Stroustrup",4,
+18,Which of the following is a correct identifier in C++?,"VAR_1234,$var_name, 7VARNAME, 7var_name",1,
+19, Which of the following type is provided by C++ but not C?," double,float, int,bool",4,
+20,Is Python code compiled or interpreted?," Python code is both compiled and interpreted,Python code is neither compiled nor interpreted,Python code is only compiled,Python code is only interpreted",1,
+21,All keywords in Python are in _________," Capitalized,lower case,UPPER CASE, None of the mentioned",4,
+22,Which of the following is used to define a block of code in Python language?,"Indentation, Key, Brackets,All of the mentioned",1,
+23,Which keyword is used for function in Python language?,"Function,def, Fun, Define",2,
+24, Which of the following character is used to give single-line comments in Python?," //, #,!, /*",2,
+25, Which of the following functions can help us to find the version of python that we are currently working on?,"sys.version(1), sys.version(0),sys.version(),sys.version",4,
+26,"Python supports the creation of anonymous functions at runtime, using a construct called __________"," pi,anonymous,lambda, none of the mentioned",3,
+27,What does pip stand for python?," Pip Installs Python,Pip Installs Packages,Preferred Installer Program,All of the mentioned",3,
+28,Which of the following is the truncation division operator in Python?,"|, //,/, %",2,
+29,Which of the following functions is a built-in function in python?," factorial(), print(),seed(), sqrt()",2,
+30,Which of the following is not a core data type in Python programming?," Tuples,Lists,Class,Dictionary",3,

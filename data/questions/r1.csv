@@ -1,11 +1,31 @@
-ï»¿qid,text,options,answer,imgPath
-1,what is the process at the most detailed level of the data flow diagrams known as,"Interfaces,functional primitives,data flow,transform descriptions",2,""
-2,Total bits used by the IPv6 address is ________,"64 bit,256 bit,128 bit,32 bit",3,""
-3,Identify the language which is mainly used for Artificial Intelligence,"Java,J2EE,Prolog,C",3,""
-4,Why is a firewall used in a computer,"Monitoring,data transmission,Authentication,security",4,""
-5,The full form of DOM is,"Document-oriented memory,document object model,document object memory,none",2,""
-6,How many levels are there in the architecture of the database?,"2,3,4,5",3,""
-7,Among the following which is not a database management software,"MySQL,COBOL,Sybase,Oracle",2,""
-8,Identify the total standard color names that HTML supports.,"30, 70, 140, 120",3,""
-9,Choose the port number of FTP.,"23,21,110, 143",2,""
-10,Total number of layers in OSI model is ___________,"5,7,9,11",2,""
+qid,text,options,answer,imgPath
+1,In which year was the ‘C’ programming language developed?,,,
+2, Who is known as the father of Free Software Foundation?,,,
+3,Who is known as the father of Internet?,,,
+4,Who used the binary system of numeration for the first time?,,,
+5,Who is the first computer programmer?,,,
+6,In which year was computer graphics oringinated?,,,
+7,Who is the inventor of Supercomputer?,,,
+8,What is the name of World’s first digital Computer?,,,
+9,What is the name of India’s first indigenous supercomputer developed by CDAC named?,,,
+10,Which was the first Pocket Computer?,,,
+11,Who invented Computer Mouse?,,,
+12,Speak to Tweet is a service given by which giant?,,,
+13,’Xoom’ is the name of tablet developed by which company?,,,
+14,WIT’ is the NASDAW code of which Indian IT company?,,,
+15,What was developed by PYRA Labs and later sold to google?,,,
+16,What do you call a single point on a computer screen?,,,
+17,Which computer was designed to be compact as possible?,,,
+18,When is world computer literacy day celebrated?,,,
+19,.Windows 10 was released on which day?,,,
+20,Round robin scheduling is he premptive version of?,,,
+21,When did IBM released its first version of DOS OS 1.0?,,,
+22,Groupon was rebranded in India to what name?,,,
+23,"While running DOS on a computer, which command is used to duplicate the entire diskette?",,,
+24,What is the name of the OS for the laptop MACLITE?,,,
+25,What is the memory range from 1k-640k called?,,,
+26,Which protocol does DHCP uses at the transport layer?,,,
+27,Which WLAN IEEE Specification allows upto 54 mbps at 2.4 Ghz?,,,
+28,Which protocol does PPP uses to identify the network layer protocol?,,,
+29,What is the second generation of the Web called?,,,
+30,Which protocol is used to identify the hardware address of a local device?,,,

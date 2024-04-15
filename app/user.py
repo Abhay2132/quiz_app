@@ -5,10 +5,13 @@ from .lib.struct import USER
 from .lib.util import createPayload
 import json
 from .lib.qb import ClientQuestion
+from ._globals import _GLOBALs
 
 class User(USER):
     ui:App=None
     def __init__(self) -> None:
+        USER.me=self
+        _GLOBALs['user']=self
         self.ui = App()
         self.client = ClientSocket(addr=addr)
         self.client.on("handshake-done", self.onHandshakeDone)
@@ -16,6 +19,10 @@ class User(USER):
         self.client.on("data", self.handleDataEvent)
         # self.client.attach(print)
         USER.me = self
+
+    def submit_answer(self, qid, answer):
+        self.client.send(createPayload("checkanswer", {"qid":qid, "answer":answer}))
+        pass
 
     def handleDataEvent(self, args):
         payload = args[0]

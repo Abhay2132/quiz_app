@@ -14,6 +14,8 @@ class QuestionBank():
         self.qdir = qdir
         if not os.path.exists(self.qdir):
             os.makedirs(self.qdir, exist_ok=True)
+            os.makedirs(os.path.join(self.qdir, "imgs"), exist_ok=True)
+            
         self.load()
         pass
 
@@ -40,6 +42,7 @@ class QuestionBank():
             self.round1 = self.loadQfromCSV(files[0])
         if os.path.exists(files[1]):
             self.round2 = self.loadQfromCSV(files[1])
+            # print(self.round2)
         if os.path.exists(files[2]):
             self.round3 = self.loadQfromCSV(files[2])
         if os.path.exists(files[3]):
@@ -63,16 +66,9 @@ class Question():
         self.text = text
         self.options = options
         self.answer = answer
-        self.imgPth = imgPath
+        self.imgPath = imgPath
     
     def forParticipant(self):
-        # data = {
-        #     "qid":self.qid,
-        #     "text":self.text,
-        #     "options":self.options,
-        #     "imgPath":self.imgPath
-        # }
-
         return ClientQuestion(self.qid, self.text, self.options, self.imgPath)
     
 class ClientQuestion():
@@ -97,3 +93,19 @@ class ClientQuestion():
         self.options=str(data.get("qid")or"").split(",")
         self.imgPath=data.get("imgPath")
         return self
+    
+    def optionsT(self):
+        # return tuple(filter(bool,self.options.split(",")))
+        options_l = list()
+        values = list(filter(bool,self.options.split(",")))
+
+        for i in range(4):
+            val = values[i] or ""
+            options_l.append(val)
+
+        return tuple(values)
+    
+    def get_img_path(self):
+        if not self.imgPath: return None
+        return os.path.join(os.getcwd(), "data", "questions", "imgs", self.imgPath)
+    

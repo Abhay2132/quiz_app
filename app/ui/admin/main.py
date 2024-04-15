@@ -126,6 +126,8 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
         App.me = self
+
+        self.title("ADMIN")
         self.geometry("800x600")
         self.after(10, lambda:self.state("zoomed"))
         self.grid_columnconfigure(1, weight=1)

@@ -1,8 +1,12 @@
 # frame for the fourth and the final round is this 
 #   round three frame only.
 import customtkinter as ctk
+from ...lib.qb import ClientQuestion
+from ..._globals import _GLOBALs
+from .util import set_option_active, set_option_inactive
 
 class Quation_Frame(ctk.CTkFrame):
+    options=list()
     def __init__(self, master, **kwargs):
         super().__init__(master,width=500, height=500,fg_color='white', **kwargs)
         ## for displaying the quation
@@ -12,26 +16,44 @@ class Quation_Frame(ctk.CTkFrame):
         self.l_question.pack(expand=True,padx=20,pady=20,fill=ctk.BOTH)
         text_col='black'
 
-       
-        self.b_option1 = ctk.CTkButton(self, width=200, height=40, text="ABHAY", border_color="#888", border_width=2,text_color=text_col, fg_color="transparent")
-       
-        self.b_option2 = ctk.CTkButton(self, width=200, height=40, text="ANshul", border_color="#888", border_width=2, text_color=text_col,fg_color="transparent")
-       
-        self.b_option3 = ctk.CTkButton(self, width=200, height=40, text="Super-man", border_color="#888", border_width=2,text_color=text_col, fg_color="transparent")
-       
-        self.b_option4 = ctk.CTkButton(self, width=200, height=40, text="Spider-man", border_color="#888", border_width=2, text_color=text_col,fg_color="transparent")
+        self.options.append(self.createOption(self, "Abhay", 1))
+        self.options.append(self.createOption(self, "Abhay", 2))
+        self.options.append(self.createOption(self, "Abhay", 3))
+        self.options.append(self.createOption(self, "Abhay", 4))
        
     def show(self):
         self.desplay_quations.grid(row=0,column=0,padx=100,pady=10,sticky='nsew')
         self.desplay_quations.grid_columnconfigure(0,weight=1)
-        self.b_option1.grid(row=1,column=0,padx=80,pady=5,sticky='we')
-        self.b_option2.grid(row=2,column=0,padx=80,pady=5,sticky='we')
-        self.b_option3.grid(row=3,column=0,padx=80,pady=5,sticky='we')
-        self.b_option4.grid(row=4,column=0,padx=80,pady=5,sticky='we')
+
+        for i,option in enumerate(self.options):
+            option.grid(row=i+1,column=0,padx=80,pady=5,sticky='we')
+            
+    def createOption(self, master, text, i):
+        return ctk.CTkButton(master, width=200, height=40, text=text, border_color="#888", border_width=2,text_color="black",hover_color="#eee", fg_color="transparent", command=lambda:self.setSelected(i))
     
+    def on_submit(self):
+        master:Round4 = self.master
+        user = _GLOBALs['user']
+        user.submit_answer(master.qid, master.selectedOption)
+        pass
+
+    def setSelected(self, i):
+        if self.master.isAdmin: return
+        r4:Round4 = self.master
+        if r4.selectedOption and r4.selectedOption != i:
+            set_option_inactive(self.options[r4.selectedOption-1])
+        r4.selectedOption = i
+        set_option_active(self.options[i-1])
+
 class Round4(ctk.CTkFrame):
+    
+    qid=None
+    selectedOption=None
+    isAdmin=False
+
     def __init__(self, master,isAdmin=False, **kwargs):
         super().__init__(master, **kwargs)
+        self.isAdmin=isAdmin
         # title for the frame 
         self.page_title=ctk.CTkLabel(self,text="SPEED ROUND",fg_color="transparent",font=('Garamond', 50),text_color="blue")
         self.round_title=ctk.CTkLabel(self,text='ROUND 4',fg_color="transparent",font=('Garamond',14),text_color="black")
@@ -51,4 +73,18 @@ class Round4(ctk.CTkFrame):
         self.pack(fill=ctk.BOTH, expand=True, padx=20, pady=20)
         
     def hide(self):
-        self.grid_forget()
+        self.pack_forget()
+
+    def setQ(self, q:ClientQuestion):
+        print("Setting Round-IV QUESTION")
+        # print(q.jsons())
+        self.qid = q.qid
+        # for option in q.optionsT:
+        self.quation_frame.l_question.configure(text=q.text)
+        t_options = q.optionsT()
+        for option, l_option in zip(t_options, self.quation_frame.options):
+            l_option.configure(text=option)
+        if self.selectedOption:
+            set_option_inactive
+            (self.quation_frame.options[self.selectedOption-1])#.configure(border_color="#888")
+            self.selectedOption=None

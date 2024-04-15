@@ -18,112 +18,29 @@ from .qb import ClientQuestion, Question
 from .sm import Scores
 from .util import createPayload
 from ..ui.admin.frames.live import PlayFrame
+from ..ui.rounds.round2 import Round2 as R2
 
 class Round1(Round):
     name="Straight Forward"
-    mark=10
-    minusMark=0
-    lastQuestionMarked=False
-
-    def __init__(self,admin) -> None:
-
-        # super().__init__(admin)
-        self.admin:ADMIN = admin
-        self.__questions = tuple(self.admin.qBank.round1)
-
-        print(len(self.__questions))
-
-    def loadQ(self):
-        """Load current round question from given question set and shuffle them"""
-        allQuestions = list(self.__questions)
-        required_q = self.num_q*self.admin.participants.count()
-        if len(allQuestions) < required_q:
-            raise Exception("NUMBER OF QUESTIONs in DB is less than participants")
-        random.shuffle(allQuestions)
-        self.__questions = tuple(allQuestions[0:required_q])
-
-    def start(self):
-        """Starting sending questions to clients and managing score"""
-        self.loadQ()
-        i=0
-        self.admin.server.broadcast(createPayload("setround", 1))
-        self.askQ()
-        self.curr_scores=Scores(self.admin.participants.getClientIDs())
-
-    def askQ(self):
-        participantID = self.admin.participants.getClientIDs()[self.currentParticipant]
-        question:Question = self.__questions[self.currentQuestion]
-        self.admin.askQ(participantID, question.forParticipant())
-        pf:PlayFrame = PlayFrame.me
-        name = self.admin.participants.getNames()[self.currentParticipant]
-        pf.setInfo(name, f"Question : {self.currentQuestion+1}/{len(self.__questions)}")
-
-    def askNextQ(self):
-        if not self.lastQuestionMarked : return
-        self.lastQuestionMarked = False
-        self.currentParticipant = (self.currentParticipant+1)%self.admin.participants.count()
-        self.currentQuestion += 1
-        if self.currentQuestion >= len(self.__questions):
-            self.onend()
-            return
-        self.askQ()
-
-    def mark_right(self):
-        self.lastQuestionMarked=True
-        participantID = self.admin.participants.getClientIDs()[self.currentParticipant]
-        self.curr_scores.add(participantID, self.mark)
-
-    def mark_wrong(self):
-        self.lastQuestionMarked=True
-        participantID = self.admin.participants.getClientIDs()[self.currentParticipant]
-        self.curr_scores.add(participantID, self.mark)
-
-    def onend(self):
-        """Add scores to main and start next Round"""
-        print(self.curr_scores.toString())
-        pass
+    def __init__(self,admin:ADMIN) -> None:
+        super().__init__(admin, admin.qBank.round1, mark=10, minusMark=0,id=1, name=Round1.name)
 
 class Round2(Round):
-
     name="Bujho Toh Jano"
-    def __init__(self,admin) -> None:
-        self.admin:ADMIN = admin
-        self.__questions = tuple(self.admin.qBank.round2)
+    def __init__(self,admin:ADMIN) -> None:
+        super().__init__(admin, admin.qBank.round2,mark=10, minusMark=-5, id=2, name=Round2.name)
 
-    def loadQ(self):
-        """Load current round question from given and other settings"""
-        allQuestions = list(self.__questions)
-        required_q = self.num_q*self.admin.participants.count()
-        if len(allQuestions) < required_q:
-            raise Exception("NUMBER OF QUESTIONs in DB is less than participants")
-        random.shuffle(allQuestions)
-        self.__questions = tuple(allQuestions[0:required_q])
-
-    def start(self):
-        pass
-
-    def askQ():
-        pass
-
-    def askNextQ(self):
-        pass
+    def check_answer(self, qid, answer):
+        rightAns = super().check_answer(qid, answer)
+        self.admin.show_right_answer(qid, answer, rightAns)
     
 class Round3(Round):
     name="Roll the Dice"
     def __init__(self,admin) -> None:
-        self.admin:ADMIN = admin
-        self.__questions = tuple(self.admin.qBank.round3)
-
-    def loadQ(self):
-        return super().loadQ()
+        super().__init__(admin, admin.qBank.round3,mark=10, minusMark=-5, id=3, name=Round3.name)
 
 class Round4(Round):
-
-    name="Straight Forward"
+    name="Speedo Round"
     def __init__(self,admin) -> None:
-        self.admin:ADMIN = admin
-        self.__questions = tuple(self.admin.qBank.round4)
-
-    def loadQ(self):
-        return super().loadQ()
+        super().__init__(admin, admin.qBank.round4,mark=10, minusMark=-5, id=4, name=Round4.name)
 

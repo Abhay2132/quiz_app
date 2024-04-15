@@ -74,3 +74,6 @@ class LoginFrame(ctk.CTkFrame):
         # self.pack(fill=ctk.BOTH, expand=True, padx=20, pady=20)
         self.grid(row=0, column=0, sticky="nswe", padx=20, pady=20)
 
+    def hide(self):
+        self.grid_forget()
+
