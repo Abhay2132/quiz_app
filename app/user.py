@@ -6,6 +6,8 @@ from .lib.util import createPayload
 import json
 from .lib.qb import ClientQuestion
 from ._globals import _GLOBALs
+from .settings import addr, getWIFI, port
+
 
 class User(USER):
     ui:App=None
@@ -13,7 +15,8 @@ class User(USER):
         USER.me=self
         _GLOBALs['user']=self
         self.ui = App()
-        self.client = ClientSocket(addr=addr)
+        # self.client = ClientSocket(addr)
+        self.client = ClientSocket(addr=(getWIFI(), port))
         self.client.on("handshake-done", self.onHandshakeDone)
         # self.client.on("disconnected", self.reconnect)
         self.client.on("data", self.handleDataEvent)

@@ -5,7 +5,7 @@ from app.lib.qb import ClientQuestion
 from .lib.struct import ADMIN
 from .lib.sockets import ClientSocket, ServerSocket, EventEmitter
 from .ui.admin.main import App
-from .settings import addr
+from .settings import addr, getHOTSPOT, port
 from .lib.util import Participant, createPayload
 from .lib.rounds import Round1, Round2, Round3, Round4
 import os
@@ -23,7 +23,8 @@ class Admin(ADMIN):
         ADMIN.me = self
         self.ui=App()
         self.qBank = QuestionBank(qdir=os.path.join(os.getcwd(), "data", "questions"))
-        self.server = ServerSocket(addr=addr)
+        # self.server = ServerSocket(addr=addr)
+        self.server = ServerSocket(addr=(getHOTSPOT(), port))
         self.server.on("new-connection", self.addParticipant)
         self.server.on("data", self.handleDataEvents)
         self.server.on("disconnected", self.onDisconnect)
