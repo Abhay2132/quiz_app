@@ -13,10 +13,11 @@ from .ui.admin.frames.live import PlayFrame, LiveFrame
 from ._globals import _GLOBALs
 
 class Admin(ADMIN):
-    curr_round_i=3
+    curr_round_i=2
     min_participants=1
-
+    currentRound = None
     rounds=tuple()
+    
     def __init__(self, ) -> None:
         super().__init__()
         _GLOBALs["admin"] = self
@@ -43,6 +44,8 @@ class Admin(ADMIN):
     def onDisconnect(self, args):
         clientID=args[0]
         # print("DISCONNECTED : ", args)
+        if self.participants.get(clientID).isPlaying:
+            return
         self.participants.remove(clientID)
         pass
 
@@ -53,23 +56,26 @@ class Admin(ADMIN):
         action = data["action"]
         data = data["data"]
 
-        if action == "setname":
-            self.setName(clientID, data)
+        if action == "setdata":
+            self.setUserData(clientID, data)
         
         if action == "checkanswer":
             qid=data["qid"]
             answer=data["answer"]
             self.currentRound.check_answer(qid, answer)
+            self.ui.f_main.f_live.f_play.curr_round.stop_timer()
 
         if action == "buzzer-pressed" and self.curr_round_i == 3:
             self.currentRound.buzzer_pressed(clientID)
+            self.ui.f_main.f_live.f_play.curr_round.stop_timer()
 
     def askQ(self, clientID, question: ClientQuestion):
         # return super().askQ(clientID, question)()
         self.ui.f_main.f_live.f_play.curr_round.setQ(question)
         self.server.sendTo(createPayload("setquestion", question.jsons()), clientID)
 
-    def setName(self,clientID, name):
+    def setUserData(self,clientID, name, id=None):
+        # check if user already exists 
         participant:Participant =  self.participants.get(clientID)
         participant.name = name
 

@@ -30,7 +30,7 @@ class ListItem(ctk.CTkFrame):
             name = self.e_name.get()
             clientID = self.id
             admin:ADMIN= ADMIN.me
-            admin.setName(clientID, name)
+            admin.setUserData(clientID, name)
             self.b_edit.configure(text="EDIT")
 
     def show(self, r,c):

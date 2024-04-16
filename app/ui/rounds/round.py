@@ -16,20 +16,33 @@ class QuestionFrame(ctk.CTkFrame):
         self.option=options
 
     def createOption(self, master, text, i):
-        return ctk.CTkButton(master, width=200, height=40, text=text, border_color="#888", border_width=2,text_color="black",hover_color="#eee", fg_color="transparent", command=lambda:self.setSelected(i))
+        return ctk.CTkButton(master, width=200, height=40, text=text, border_color="#888", border_width=2,text_color="black",hover_color="#eee", font=("Roboto", 18), fg_color="transparent", command=lambda:self.setSelected(i))
     
     def on_submit(self):
+        r:ROUND=self.master
+        if not r.selectedOption:
+            return
         master:ROUND = self.master
         user = _GLOBALs['user']
         user.submit_answer(master.qid, master.selectedOption)
         self.b_submit.configure(state=ctk.DISABLED)
+        r:ROUND=self.master
+        r.stop_timer()
         pass
 
     def setSelected(self, i, flag=False):
         if self.master.isAdmin or flag: return
         r2:ROUND = self.master
+
+        # deselect previous one
         if r2.selectedOption and r2.selectedOption != i:
             set_option_normal(self.options[r2.selectedOption-1])#.configure(border_color="#888")
+
+        # deselect current
+        if r2.selectedOption and r2.selectedOption == i:
+            set_option_normal(self.options[r2.selectedOption-1])#.configure(border_color="#888")
+            r2.selectedOption = None
+            return
         r2.selectedOption = i
         set_option_selected(self.options[i-1])#.configure(border_color="green")
 
@@ -60,18 +73,20 @@ class ROUND(ctk.CTkFrame):
     time_limit = 20
     l_timer:ctk.CTkLabel=None
     hasSubmit=None
+    rid=None
 
     def setQFrame(self, f):
         self.f_question = f
 
     def setLTimer(self, l):
         self.l_timer=l
-    def __init__(self,master, isAdmin,has_options=True, has_submit=True, **kwargs):
+    def __init__(self,master, isAdmin,has_options=True, has_submit=True,id=None, **kwargs):
         super().__init__(master,**kwargs)
         # self.f_question = QFrame(self, options=(list() if has_options else None))
         self.isAdmin = isAdmin
         self.hasOptions = has_options
         self.hasSubmit = has_submit
+        self.rid=id
 
     def setQ(self, q:ClientQuestion):
         if self.hasSubmit: self.f_question.b_submit.configure(state=ctk.NORMAL)

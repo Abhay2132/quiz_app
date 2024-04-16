@@ -2,20 +2,43 @@ import shutil
 from .sockets import ClientSocket
 import json
 import os
+import random
+import string
+
+def rand_str(length=10):
+  """Generates a random string of the specified length.
+
+  Args:
+      length (int, optional): Length of the desired random string. Defaults to 10.
+
+  Returns:
+      str: The generated random string.
+  """
+
+  # Define the character set for the random string
+  characters = string.ascii_letters + string.digits + string.punctuation
+
+  # Use random.choices to generate random characters from the set
+  random_string = ''.join(random.choices(characters, k=length))
+
+  return random_string
 
 class Participant():
     name=None
     client=None
     clientID=None
-    def __init__(self, client:ClientSocket, clientID, name:str="") -> None:
+    isPlaying=False
+    uid=None
+    def __init__(self, client:ClientSocket, clientID) -> None:
         self.client=client
         self.clientID=clientID
-        self.name = name
+        # self.name = name
 
 class Participants():
     __participants = dict()
 
     def add(self, p:Participant):
+        
         self.__participants[p.clientID] = p
 
     def remove(self, clientID:Participant.clientID):
@@ -24,6 +47,12 @@ class Participants():
     def find(self, clientID:Participant.clientID)->bool:
         return clientID in self.__participants
     
+    def copy(self):
+        participants = Participants()
+        for p in self.__participants:
+            p.isPlaying =True
+            participants.add(p)
+
     def get(self, clientID:Participant.clientID)->Participant:
         if self.find(clientID):
             return self.__participants[clientID]
@@ -55,7 +84,6 @@ class Obj(dict):
     def copy(self):
         return Obj(**self)
     
-
 class UI:
     parent=None
     def show(self):

@@ -48,7 +48,10 @@ class EventEmitter:
     def off_all(self):
         for name in self.__events:
             self.off(name)
-        
+
+class Client():
+    inb:list=None
+    outb:list=None
 
 class ServerSocket(EventEmitter):
 
@@ -79,7 +82,7 @@ class ServerSocket(EventEmitter):
         self.eventThread.start()
         pass
 
-    def sendTo(self, message:bytes,clientID=None):
+    def sendTo(self, message:bytes|str,clientID=None):
         if type(message) is str:
             message = bytes(message, encoding="utf-8")
 
@@ -90,9 +93,21 @@ class ServerSocket(EventEmitter):
         data = client_key.data
         data.outb += message
 
+    def sendAllTo(self, message:bytes, clientID):
+        if type(message) is str:
+            message = bytes(message, encoding="utf-8")
+
+        if clientID not in self.clients:
+            raise Exception(f"Client ID '{clientID}' not found")
+
+        client_key = self.clients[clientID]
+        csoc = client_key.fileobj
+        # data.outb += message
+        csoc.sendall(message)
+
     def broadcast(self, message:bytes):
         for clientID in self.clients:
-            self.sendTo(message, clientID)
+            self.sendAllTo(message, clientID)
 
     def stop(self):
         while self.eventThread:

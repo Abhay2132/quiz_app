@@ -19,6 +19,7 @@ from .sm import Scores
 from .util import createPayload
 from ..ui.admin.frames.live import PlayFrame
 from ..ui.rounds.round2 import Round2 as R2
+import random
 
 class Round1(Round):
     name="Straight Forward"
@@ -36,12 +37,72 @@ class Round2(Round):
     
 class Round3(Round):
     name="Roll the Dice"
+    rolling_i=None # store the index of the participant who is rolling the dice
+    target_i=None # the index of the participant came by rolling the dice
+
     def __init__(self,admin) -> None:
         super().__init__(admin, admin.qBank.round3,mark=10, minusMark=-5, id=3, name=Round3.name)
 
     def check_answer(self, qid, answer):
         rightAns = super().check_answer(qid, answer)
         self.admin.show_right_answer(qid, rightAns, answer)
+        if int(rightAns) != int(answer) and self.rolling_i is None:
+            self.roll_the_dice()
+            pass
+    
+    def roll_the_dice(self):
+        """Show the roll the dice interface and then """
+        pf:PlayFrame = PlayFrame.me
+        pf.curr_round.dice.show()
+        self.rolling_i=self.curr_participant_i
+        pass
+
+    def roll(self)->int:
+        num:int = self.admin.participants.count()
+        indices = list(range(0,num))
+        indices.remove(int(self.rolling_i))
+        result = random.choice(indices)
+        self.target_i = result
+
+        name = self.admin.participants.getNames()[result]
+        return name
+        pass
+
+    def ask(self):
+        pf:PlayFrame = PlayFrame.me
+        pf.curr_round.dice.hide()
+        self.curr_participant_i = self.target_i
+        self.askQ()
+    
+    def mark_right(self):
+        if self.lastQuestionMarked or self.roundEnded:return
+        self.lastQuestionMarked=True
+        participantID = self.admin.participants.getClientIDs()[self.curr_participant_i]
+        self.curr_scores.add(participantID, self.mark)
+
+    def mark_wrong(self):
+        if self.lastQuestionMarked or self.roundEnded:return
+        self.lastQuestionMarked=True
+        participantID = self.admin.participants.getClientIDs()[self.curr_participant_i]
+        self.curr_scores.add(participantID, self.minusMark)
+
+    def askNextQ(self):
+        if not self.lastQuestionMarked : return
+        self.lastQuestionMarked = False
+
+        if self.rolling_i is not None:
+            self.curr_participant_i = self.rolling_i
+            self.target_i = None
+            self.rolling_i=None
+            pass
+        self.curr_participant_i = (self.curr_participant_i+1)%self.admin.participants.count()
+        self.curr_question_i += 1
+        if self.curr_question_i >= len(self.questions__):
+            self.onend()
+            return
+        self.askQ()
+
+
 
 class Round4(Round):
     name="Speedo Round"
@@ -56,12 +117,12 @@ class Round4(Round):
     def check_answer(self, qid, answer):
         self.lastQuestionMarked=True
         rightAns = None
-        for question in self.__questions:
+        for question in self.questions__:
             if str(qid) == str(question.qid):
                 rightAns=question.answer
         isRight=int(rightAns)==int(answer)
         print(f"CHECKING ANSWER qid:{qid}, ans:{answer}, correct:{rightAns}")
-        participantID = self.admin.participants.getClientIDs()[self.currentParticipant]
+        participantID = self.admin.participants.getClientIDs()[self.curr_participant_i]
         if isRight:
             self.curr_scores.add(participantID, self.mark)
         else:
@@ -76,7 +137,7 @@ class Round4(Round):
         if len(allQuestions) < self.totalQ:
             raise Exception(f"NUMBER OF QUESTIONs in DB is less than participants : {len(allQuestions)} < {self.totalQ}")
         random.shuffle(allQuestions)
-        self.__questions = tuple(allQuestions[0:self.totalQ])
+        self.questions__ = tuple(allQuestions[0:self.totalQ])
 
     def start(self):
         print(f"ROUND-{self.id} started")
@@ -90,7 +151,7 @@ class Round4(Round):
         self.isBuzzerPressed=False
         self.clear_users()
         # participantID = self.admin.participants.getClientIDs()[self.currentParticipant]
-        question:Question = self.__questions[self.currentQuestion]
+        question:Question = self.questions__[self.curr_question_i]
         # self.admin.askQ(participantID, question.forParticipant())
         question:ClientQuestion = question.forParticipant()
         # self.admin.ui.f_main.f_live.f_play.curr_round.setQ(question)
@@ -101,24 +162,25 @@ class Round4(Round):
         pf:PlayFrame = PlayFrame.me
         pf.curr_round.setQ(question)
         # name = self.admin.participants.getNames()[self.currentParticipant]
-        pf.setInfo("", f"Question : {self.currentQuestion+1}/{len(self.__questions)}")
+        pf.setInfo("", f"Question : {self.curr_question_i+1}/{len(self.questions__)}")
         pass
 
     def askNextQ(self):
         if not self.lastQuestionMarked : return
         self.lastQuestionMarked = False
         # self.currentParticipant = (self.currentParticipant+1)%self.admin.participants.count()
-        self.currentQuestion += 1
-        if self.currentQuestion >= len(self.__questions):
+        self.curr_question_i += 1
+        if self.curr_question_i >= len(self.questions__):
             self.onend()
             return
         self.askQ()
 
     def mark_right(self):
-        if self.lastQuestionMarked or self.roundEnded:return
+        if self.lastQuestionMarked or self.roundEnded :return
         self.lastQuestionMarked=True
         # participantID = self.admin.participants.getClientIDs()[self.currentParticipant]
         participantID = self.first_id
+        if not participantID: return
         self.curr_scores.add(participantID, self.mark)
 
     def mark_wrong(self):
@@ -126,17 +188,22 @@ class Round4(Round):
         self.lastQuestionMarked=True
         # participantID = self.admin.participants.getClientIDs()[self.currentParticipant]
         participantID = self.first_id
+        if not participantID: return
         self.curr_scores.add(participantID, self.minusMark)
-
 
     def check_answer(self, qid, answer):
         rightAns = super().check_answer(qid, answer)
         self.admin.show_right_answer(qid, rightAns, answer)
 
     def clear_users(self):
+        pf:PlayFrame = PlayFrame.me
+        pf.curr_round.clearusers()
         pass
 
     def add_user(self,clientID):
+        name = self.admin.participants.get(clientID).name
+        pf:PlayFrame = PlayFrame.me
+        pf.curr_round.adduser(name)
         pass
 
     def buzzer_pressed(self, clientID):

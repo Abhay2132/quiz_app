@@ -10,10 +10,10 @@ from ..ui.admin.frames.live import PlayFrame
 
 class Round():
     admin=None
-    __questions:tuple=None
+    questions__:tuple=None
     num_q = 5
-    currentParticipant:int=0
-    currentQuestion:int=0
+    curr_participant_i:int=0
+    curr_question_i:int=0
     isFinished=False
     curr_scores:Scores=None
     lastQuestionMarked=False
@@ -25,7 +25,7 @@ class Round():
 
     def __init__(self, admin, questions, mark, minusMark, id, name, num_q=5) -> None:
         self.admin:ADMIN = admin
-        self.__questions = tuple(questions)
+        self.questions__ = tuple(questions)
         self.mark=mark
         self.minusMark=minusMark
         self.id=id
@@ -35,12 +35,12 @@ class Round():
     def check_answer(self, qid, answer):
         self.lastQuestionMarked=True
         rightAns = None
-        for question in self.__questions:
+        for question in self.questions__:
             if str(qid) == str(question.qid):
                 rightAns=question.answer
         isRight=int(rightAns)==int(answer)
         print(f"CHECKING ANSWER qid:{qid}, ans:{answer}, correct:{rightAns}")
-        participantID = self.admin.participants.getClientIDs()[self.currentParticipant]
+        participantID = self.admin.participants.getClientIDs()[self.curr_participant_i]
         if isRight:
             self.curr_scores.add(participantID, self.mark)
         else:
@@ -50,12 +50,12 @@ class Round():
         return rightAns
         
     def loadQ(self):
-        allQuestions = list(self.__questions)
+        allQuestions = list(self.questions__)
         required_q = self.num_q*self.admin.participants.count()
         if len(allQuestions) < required_q:
             raise Exception("NUMBER OF QUESTIONs in DB is less than participants")
         random.shuffle(allQuestions)
-        self.__questions = tuple(allQuestions[0:required_q])
+        self.questions__ = tuple(allQuestions[0:required_q])
 
     def start(self):
         print(f"ROUND-{self.id} started")
@@ -65,20 +65,20 @@ class Round():
         self.curr_scores=Scores(self.admin.participants.getClientIDs())
 
     def askQ(self):
-        participantID = self.admin.participants.getClientIDs()[self.currentParticipant]
-        question:Question = self.__questions[self.currentQuestion]
+        participantID = self.admin.participants.getClientIDs()[self.curr_participant_i]
+        question:Question = self.questions__[self.curr_question_i]
         self.admin.askQ(participantID, question.forParticipant())
         pf:PlayFrame = PlayFrame.me
-        name = self.admin.participants.getNames()[self.currentParticipant]
-        pf.setInfo(name, f"Question : {self.currentQuestion+1}/{len(self.__questions)}")
+        name = self.admin.participants.getNames()[self.curr_participant_i]
+        pf.setInfo(name, f"Question : {self.curr_question_i+1}/{len(self.questions__)}")
         pass
 
     def askNextQ(self):
         if not self.lastQuestionMarked : return
         self.lastQuestionMarked = False
-        self.currentParticipant = (self.currentParticipant+1)%self.admin.participants.count()
-        self.currentQuestion += 1
-        if self.currentQuestion >= len(self.__questions):
+        self.curr_participant_i = (self.curr_participant_i+1)%self.admin.participants.count()
+        self.curr_question_i += 1
+        if self.curr_question_i >= len(self.questions__):
             self.onend()
             return
         self.askQ()
@@ -86,7 +86,7 @@ class Round():
     def mark_right(self):
         if self.lastQuestionMarked or self.roundEnded:return
         self.lastQuestionMarked=True
-        participantID = self.admin.participants.getClientIDs()[self.currentParticipant]
+        participantID = self.admin.participants.getClientIDs()[self.curr_participant_i]
         self.curr_scores.add(participantID, self.mark)
         # print(self.curr_scores.toString())
         # print(self.admin.scores.toString())
@@ -95,7 +95,7 @@ class Round():
     def mark_wrong(self):
         if self.lastQuestionMarked or self.roundEnded:return
         self.lastQuestionMarked=True
-        participantID = self.admin.participants.getClientIDs()[self.currentParticipant]
+        participantID = self.admin.participants.getClientIDs()[self.curr_participant_i]
         self.curr_scores.add(participantID, self.minusMark)
 
     def onend(self):
@@ -138,7 +138,7 @@ class ADMIN():
     def start(self):
         pass
 
-    def setName(clientID, name):
+    def setUserData(clientID, name):
         pass
 
 class USER():

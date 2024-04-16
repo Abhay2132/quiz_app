@@ -2,12 +2,11 @@ from .ui.user.main import App
 from .lib.sockets import ClientSocket
 from .settings import addr
 from .lib.struct import USER
-from .lib.util import createPayload
+from .lib.util import createPayload, rand_str
 import json
 from .lib.qb import ClientQuestion
 from ._globals import _GLOBALs
 from .settings import addr, getWIFI, port
-
 
 class User(USER):
     ui:App=None
@@ -31,6 +30,7 @@ class User(USER):
         self.client.on("data", self.handleDataEvent)
         # self.client.attach(print)
         self.client.connect()
+        self.uid = rand_str()
         # self
 
     def submit_answer(self, qid, answer):
@@ -77,7 +77,7 @@ class User(USER):
         print("setting active Frame")
         self.ui.mainpanel.setActiveFrame(self.ui.mainpanel.f_screensaver)
         print("sending name")
-        payload = createPayload("setname", self.name)
+        payload = createPayload("setdata", self.name)
         self.client.send(payload)
 
     def on_buzzer_pressed(self, qid):

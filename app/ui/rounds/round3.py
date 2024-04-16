@@ -4,6 +4,8 @@ from ..._globals import _GLOBALs
 from ...lib.qb import ClientQuestion
 from .util import set_option_selected, set_option_normal,set_option_correct
 from .round import QuestionFrame, ROUND
+import random as rand
+
 
 class Question_Frame(QuestionFrame):
 
@@ -19,7 +21,7 @@ class Question_Frame(QuestionFrame):
         # for displaying the quation
         self.desplay_quations=ctk.CTkFrame(self,width=500,height=200,fg_color='white',border_color='black',border_width=2)
         qaution="who is this persion shown in the image"
-        self.l_question=ctk.CTkLabel(self.desplay_quations,text=qaution,font=('Garamond',20),fg_color='white',text_color='black',width=500,height=200)
+        self.l_question=ctk.CTkLabel(self.desplay_quations,text=qaution,font=('Garamond',25),fg_color='white',text_color='black',width=500,height=200)
         self.l_question.pack(expand=True,padx=20,pady=20,fill=ctk.BOTH)
         text_col='black'
         self.b_submit=ctk.CTkButton(self,width=100,height=40,text="SUMIT",border_color='#888',border_width=2,hover=True,hover_color='green', command=self.on_submit)
@@ -40,6 +42,42 @@ class Question_Frame(QuestionFrame):
             self.b_submit.grid(row=5,column=0,padx=80,pady=5,sticky='w')
         # self.b_submit.grid(row=5,column=0,padx=80,pady=5,sticky='w')
 
+
+class Dice(ctk.CTkFrame):
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs)
+        self.l_title=ctk.CTkLabel(self,text='DICE',font=("Roboto",16),fg_color='transparent',text_color='#333')
+        self.l_target=ctk.CTkLabel(self,text='TARGET',font=('Roboto',10),fg_color='white',text_color='#323')
+
+        self.b_roll=ctk.CTkButton(self,text='Roll',font=('Roboto',12),fg_color='green',text_color='#333',command=self.roll)
+        self.b_ask =ctk.CTkButton(self,text='ASK',font=('Roboto',12),command=self.ask, state=ctk.DISABLED)
+
+    def show(self):
+        self.grid(row=2,column=1,padx=10,pady=10,sticky='ne')
+
+        self.l_title.grid(row=0,column=0,padx=10,pady=10,sticky='nw')
+        self.l_target.grid(row=1,column=0,sticky='nsew')
+        # self.b_roll.grid(row=2,column=0,sticky='sw')
+        self.b_roll.grid(row=2,column=0,)
+        self.b_ask.grid(row=3,column=0,)
+
+    def hide(self):
+        self.grid_forget()
+
+    def ask(self):
+        _GLOBALs["admin"].currentRound.ask()
+        self.l_target.configure(text="TARGET")
+
+    def roll(self):
+        num = _GLOBALs.get("admin") and _GLOBALs["admin"].currentRound.roll()
+        self.l_target.configure(text=num)
+        self.b_ask.configure(state=ctk.NORMAL)
+    #    number=[]
+    #    l=rand.randint(1,6)
+    #    if l not in number:
+    #        self.l_number.configure(text=f'{l}')
+
+
 class Round3(ROUND):
     
     def __init__(self, master, isAdmin=False,**kwargs):
@@ -53,18 +91,32 @@ class Round3(ROUND):
         self.page_title=ctk.CTkLabel(self,text="ROLL THE DICE",fg_color="transparent",font=('Garamond', 50),text_color="blue")
         self.round_title=ctk.CTkLabel(self,text='ROUND 3',fg_color="transparent",font=('Garamond',14),text_color="black")
         self.logo=ctk.CTkLabel(self,text='Logo',fg_color="white",width=50,height=50,text_color="red")
-        self.timer=ctk.CTkLabel(self,text='timer',fg_color='blue',width=70,height=30,text_color='white')
+        self.l_timer=ctk.CTkLabel(self,text='timer',fg_color='blue',width=70,height=30,text_color='white')
         self.f_question=Question_Frame(self)
+        super().setLTimer(self.l_timer)
+
+        # if self.isAdmin:
+        self.dice=Dice(self)
 
     def show(self):
-        self.page_title.grid(row=0, column=0, sticky='nsew', padx=20, pady=20)
-        self.round_title.grid(row=1,column=0,sticky='nwe',padx=20,pady=0)
+        self.page_title.grid(row=0, column=0, sticky='nsew', padx=20, pady=20, columnspan=2)
+        self.round_title.grid(row=1,column=0,sticky='nwe',padx=20,pady=0, columnspan=2)
+        self.logo.grid(row=0,column=0,sticky='nw',padx=20,pady=20, columnspan=2)
+        self.l_timer.grid(row=0,column=0,sticky='ne',padx=20,pady=20, columnspan=2)
+
         self.f_question.grid(row=2, column=0, padx=20, pady=20)
         self.f_question.show()
-        self.logo.grid(row=0,column=0,sticky='nw',padx=20,pady=20)
-        self.timer.grid(row=0,column=0,sticky='ne',padx=20,pady=20)
         self.grid_columnconfigure(0, weight=1) 
+
+        # for testing
+        # if True:
+        #     self.dice.show()
+
+        # if self.isAdmin:
+        #     self.dice.show()
+
         self.pack(fill=ctk.BOTH, expand=True, padx=20, pady=20)
+
         
     def hide(self):
         self.pack_forget()

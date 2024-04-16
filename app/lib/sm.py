@@ -11,20 +11,20 @@ class Scores(SCORE):
         self.scores = dict()
         for id in IDs:
             self.scores[id] = 0
-        self.minScore=minScore
+        # self.minScore=minScore
 
     def get(self, id):
         return self.scores.get(id)
     
     def set(self, id, val):
-        if val < self.minScore:
-            val = self.minScore
+        # if val < self.minScore:
+        #     val = self.minScore
         self.scores[id] = val
     
     def add(self, id, val):
         self.scores[id] += val
-        if self.scores[id] < self.minScore:
-            self.scores[id] = self.minScore
+        # if self.scores[id] < self.minScore:
+        #     self.scores[id] = self.minScore
         # if 
 
     def addUser(self, id, score=0):

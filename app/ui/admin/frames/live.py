@@ -261,8 +261,6 @@ class Score(ctk.CTkFrame):
         # print("next")
         _GLOBALs["admin"].start_next_round()
         
-
-
 class PlayFrame(ctk.CTkFrame):
     curr_round=None
     roundUIs=list()
