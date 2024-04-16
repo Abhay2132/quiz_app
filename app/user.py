@@ -15,8 +15,8 @@ class User(USER):
         USER.me=self
         _GLOBALs['user']=self
         self.ui = App()
-        self.client = ClientSocket(addr)
-        # self.client = ClientSocket(addr=(getWIFI(), port))
+        # self.client = ClientSocket(addr)
+        self.client = ClientSocket(addr=(getWIFI(), port))
         self.client.on("handshake-done", self.onHandshakeDone)
         # self.client.on("disconnected", self.reconnect)
         self.client.on("data", self.handleDataEvent)
