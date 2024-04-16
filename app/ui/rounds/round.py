@@ -4,12 +4,14 @@ from PIL import Image
 import os
 import customtkinter as ctk
 from ..._globals import _GLOBALs
+import time
 
 class QuestionFrame(ctk.CTkFrame):
 
     options=None
+    b_submit:ctk.CTkButton=None
 
-    def __init__(self, master,options=None, **kwargs):
+    def __init__(self, master,options=None,**kwargs):
         super().__init__(master, **kwargs)
         self.option=options
 
@@ -20,6 +22,7 @@ class QuestionFrame(ctk.CTkFrame):
         master:ROUND = self.master
         user = _GLOBALs['user']
         user.submit_answer(master.qid, master.selectedOption)
+        self.b_submit.configure(state=ctk.DISABLED)
         pass
 
     def setSelected(self, i, flag=False):
@@ -33,6 +36,8 @@ class QuestionFrame(ctk.CTkFrame):
     def resetOptions(self):
         self.master.selectedOption = None
         self.master.correctOption = None
+        if not bool(self.options):
+            return
         for option in self.options:
             set_option_normal(option)
 
@@ -51,21 +56,34 @@ class ROUND(ctk.CTkFrame):
     me=None
     f_question:QuestionFrame=None
     hasOptions=True
+    running=False
+    time_limit = 20
+    l_timer:ctk.CTkLabel=None
+    hasSubmit=None
 
     def setQFrame(self, f):
         self.f_question = f
 
-    def __init__(self,master, isAdmin,has_options, **kwargs):
+    def setLTimer(self, l):
+        self.l_timer=l
+    def __init__(self,master, isAdmin,has_options=True, has_submit=True, **kwargs):
         super().__init__(master,**kwargs)
         # self.f_question = QFrame(self, options=(list() if has_options else None))
         self.isAdmin = isAdmin
         self.hasOptions = has_options
+        self.hasSubmit = has_submit
 
     def setQ(self, q:ClientQuestion):
+        if self.hasSubmit: self.f_question.b_submit.configure(state=ctk.NORMAL)
+        self.reset_timer()
+        self.start_timer()
         self.f_question.resetOptions()
         self.qid = q.qid
 
         self.f_question.l_question.configure(text=q.text)
+
+        if not bool(self.f_question.option):
+            return
         t_options = q.optionsT()
         for option, l_option in zip(t_options, self.f_question.options):
             l_option.configure(text=option)
@@ -91,12 +109,48 @@ class ROUND(ctk.CTkFrame):
         self.image.configure(image=image, text="")
 
     def show_answer(self, correct_i, selected_i=None):
-        self.f_question.setCorrect(int(correct_i))
         # if selected_i:self.f_question.setSelected(int(selected_i), True)
         set_option_selected(self.f_question.options[int(selected_i)-1])
+        self.f_question.setCorrect(int(correct_i))
 
     def show(self):
         pass
 
     def hide(self):
         pass
+
+    def reset_timer(self):
+        self.running = False
+        self.l_timer.configure(text=f"{self.time_limit}s")
+        print("Timer reset")
+
+    def start_timer(self):
+        print("START TIMEr")
+        if not self.running:
+            self.start_time = time.time()
+            self.running = True
+            # self.start_button.configure(state="disabled")
+            # self.stop_button.configure(state="normal")
+            self.update_timer()
+
+    def update_timer(self):
+            if self.running:
+                present_time = time.time()
+                elapsed_time = present_time - self.start_time
+                remaining_time = self.time_limit - int(elapsed_time)
+    
+                if remaining_time > 0:
+                    self.l_timer.configure(text=f"{remaining_time}s")
+                    self.l_timer.after(1000, self.update_timer)  # Update every 1 second
+                else:
+                    self.stop_timer()
+                    self.l_timer.configure(text="TIME UP")
+    
+    def stop_timer(self):
+        if self.running:
+            self.running = False
+            # self.start_button.configure(state="normal")
+            if self.hasSubmit: self.f_question.b_submit.configure(state="disabled")
+
+
+

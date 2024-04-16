@@ -35,50 +35,47 @@ class Question_Frame(QuestionFrame):
             option.grid(row=i+1,column=0,padx=80,pady=5,sticky='we')
 
 class Round4(ROUND):
+
+    binded=False
     def __init__(self, master,isAdmin=False, **kwargs):
 
-        super().__init__(master=master, isAdmin=isAdmin, has_options=True, **kwargs)
-        self.q_frame = Question_Frame(self)
-        super().setQFrame(self.q_frame)
-
-        # super().__init__(master, **kwargs)
+        super().__init__(master=master, isAdmin=isAdmin, has_submit=False, **kwargs)
+        self.f_question = Question_Frame(self)
+        super().setQFrame(self.f_question)
+        # super().__init__(master, **kwar   gs)
 
         self.isAdmin=isAdmin
         self.page_title=ctk.CTkLabel(self,text="SPEED ROUND",fg_color="transparent",font=('Garamond', 50),text_color="blue")
         self.round_title=ctk.CTkLabel(self,text='ROUND 4',fg_color="transparent",font=('Garamond',14),text_color="black")
         self.logo=ctk.CTkLabel(self,text='Logo',fg_color="white",width=50,height=50,text_color="red")
-        self.timer=ctk.CTkLabel(self,text='timer',fg_color='blue',width=70,height=30,text_color='white')
-        self.f_question=Question_Frame(self)
+        self.l_timer=ctk.CTkLabel(self,text='timer',fg_color='blue',width=70,height=30,text_color='white')
+
+        super().setLTimer(self.l_timer)
     
     def show(self):
+
+        if not self.binded and not self.isAdmin: _GLOBALs["user"].ui.bind("<Key>", self.on_key_pressed)
+        self.binded=True
         self.page_title.grid(row=0, column=0, sticky='nsew', padx=20, pady=20)
         self.round_title.grid(row=1,column=0,sticky='nwe',padx=20,pady=0)
         self.f_question.grid(row=2, column=0, padx=50, pady=20)
         self.f_question.show()
         self.logo.grid(row=0,column=0,sticky='nw',padx=20,pady=20)
-        self.timer.grid(row=0,column=0,sticky='ne',padx=20,pady=20)
+        self.l_timer.grid(row=0,column=0,sticky='ne',padx=20,pady=20)
         self.grid_columnconfigure(0, weight=1) 
         self.pack(fill=ctk.BOTH, expand=True, padx=20, pady=20)
 
         # self.show_answer(1)
+        self.start_timer()
         
     def hide(self):
         self.pack_forget()
 
-    def setQ(self, q:ClientQuestion):
-        print("Setting Round-IV QUESTION")
-        # print(q.jsons())
-        self.qid = q.qid
-        # for option in q.optionsT:
-        self.f_question.l_question.configure(text=q.text)
-        t_options = q.optionsT()
-        for option, l_option in zip(t_options, self.f_question.options):
-            l_option.configure(text=option)
-        if self.selectedOption:
-            set_option_normal
-            (self.f_question.options[self.selectedOption-1])#.configure(border_color="#888")
-            self.selectedOption=None
-    
-    def show_answer(self, correct_i, selected_i=None):
-        self.f_question.setCorrect(correct_i)
-        if selected_i : self.f_question.setSelected(selected_i, True)
+    def on_key_pressed(self, event):
+        # print(event)
+        # return
+        if event.keysym=="Return":
+            print("BUZZER PRESSED")
+            _GLOBALs["user"].on_buzzer_pressed(self.qid)
+
+

@@ -5,29 +5,11 @@ from ....lib.struct import USER
 class Form(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master=master, fg_color='transparent',border_color="white",border_width=2, **kwargs)
-
-        # for the icon 
         self.icon=ctk.CTkLabel(self,fg_color="blue",width=500,height=300,text="icon goes here")
-        
-
-        # Create user ID label with better styling (optional)
-        self.userid = ctk.CTkLabel(self, text="UserID:",
-                                   font=('Helvetica', 18, 'bold'),
-                                   text_color='#DAA520')
-
-        # Create entry field with improved styling (optional)
-        self.e_userid = ctk.CTkEntry(self,
-                                     placeholder_text="Enter the ID...",
-                                     font=('Helvetica', 14),
-                                     text_color='black',
-                                     width=200)
-
-        # Create login button with better styling (optional)
-        self.submit_b = ctk.CTkButton(self, text='Login',
-                                      fg_color="blue",
-                                      hover_color="lightblue",
-                                      command=self.click_submit
-                                      )
+        self.userid = ctk.CTkLabel(self, text="UserID:",font=('Helvetica', 18, 'bold'),text_color='#DAA520')
+        self.e_userid = ctk.CTkEntry(self,placeholder_text="Enter the ID...",font=('Helvetica', 14),text_color='black',width=200)
+        self.submit_b = ctk.CTkButton(self, text='Login',fg_color="blue",hover_color="lightblue",command=self.click_submit)
+        self.l_info=ctk.CTkLabel(self, text="Login with unique Name", anchor="w", fg_color="transparent", font=("Roboto", 13))
 
     def click_submit(self):
 
@@ -36,7 +18,7 @@ class Form(ctk.CTkFrame):
             return print("ERROR : USERNAME SHOULD BE GREATER THAN 3 LETTERS")
         user:USER = USER.me
         user.setName(name)
-        user.client.connect()
+        user.login()
         # user.ui.mainpanel.setActiveFrame(user.ui.mainpanel.f_screensaver)
     
     def show(self):
@@ -44,9 +26,9 @@ class Form(ctk.CTkFrame):
         self.icon.grid(row=0, column=0, padx=20, pady=10, sticky='we')
         self.userid.grid(row=1, column=0, padx=20, pady=10, )#sticky='we')
         self.e_userid.grid(row=2, column=0, padx=20, pady=10, )#sticky='we')
-        self.submit_b.grid(row=3, column=0, padx=20, pady=15, )#sticky='we')
-        self.after(500, lambda : self.e_userid.focus())
-
+        self.submit_b.grid(row=3, column=0, padx=20, pady=(15,0), )#sticky='we')
+        self.l_info.grid(row=4, column=0, padx=50, pady=(10,15), sticky="we")
+        self.after(400, lambda : self.e_userid.focus())
 
 # Main Login Frame (Enhanced)
 class LoginFrame(ctk.CTkFrame):

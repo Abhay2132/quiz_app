@@ -13,7 +13,7 @@ from .ui.admin.frames.live import PlayFrame, LiveFrame
 from ._globals import _GLOBALs
 
 class Admin(ADMIN):
-    curr_round_i=1
+    curr_round_i=3
     min_participants=1
 
     rounds=tuple()
@@ -23,8 +23,8 @@ class Admin(ADMIN):
         ADMIN.me = self
         self.ui=App()
         self.qBank = QuestionBank(qdir=os.path.join(os.getcwd(), "data", "questions"))
-        # self.server = ServerSocket(addr=addr)
-        self.server = ServerSocket(addr=(getHOTSPOT(), port))
+        self.server = ServerSocket(addr=addr)
+        # self.server = ServerSocket(addr=(getHOTSPOT(), port))
         self.server.on("new-connection", self.addParticipant)
         self.server.on("data", self.handleDataEvents)
         self.server.on("disconnected", self.onDisconnect)
@@ -60,6 +60,9 @@ class Admin(ADMIN):
             qid=data["qid"]
             answer=data["answer"]
             self.currentRound.check_answer(qid, answer)
+
+        if action == "buzzer-pressed" and self.curr_round_i == 3:
+            self.currentRound.buzzer_pressed(clientID)
 
     def askQ(self, clientID, question: ClientQuestion):
         # return super().askQ(clientID, question)()

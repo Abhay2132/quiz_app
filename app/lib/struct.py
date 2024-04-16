@@ -23,13 +23,14 @@ class Round():
     name=None
     roundEnded=False
 
-    def __init__(self, admin, questions, mark, minusMark, id, name) -> None:
+    def __init__(self, admin, questions, mark, minusMark, id, name, num_q=5) -> None:
         self.admin:ADMIN = admin
         self.__questions = tuple(questions)
         self.mark=mark
         self.minusMark=minusMark
         self.id=id
         self.name=name
+        self.num_q = num_q
 
     def check_answer(self, qid, answer):
         self.lastQuestionMarked=True

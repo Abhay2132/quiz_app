@@ -11,6 +11,7 @@ magicKey = b"India"
 class EventEmitter:
     __events = dict()
     __listen=None
+    stop=False
     
     def __init__(self):
         pass
@@ -20,6 +21,7 @@ class EventEmitter:
         self.__listen = listener
     
     def on(self, name, callback):
+        # if self.stop : return
         if not bool(self.__events.get(name)):
             self.__events[name] = list()
         self.__events[name].append(callback)
@@ -41,8 +43,12 @@ class EventEmitter:
             return 
         if index is None:
             self.__events[name].clear()
+        elif index < len(self.__events[name]):self.__events[name].pop(index)
+    
+    def off_all(self):
+        for name in self.__events:
+            self.off(name)
         
-        if index < len(self.__events[name]):self.__events[name].pop(index)
 
 class ServerSocket(EventEmitter):
 
@@ -210,6 +216,7 @@ class ClientSocket(EventEmitter):
     eventThread = None
     csoc = None
     handshakeStage = 0 #  1 -> send | 2 -> recived | 3 -> DONE
+    stopThread=False
 
     def __init__(self, addr) -> None:
         super().__init__()
@@ -233,9 +240,13 @@ class ClientSocket(EventEmitter):
                     print("Handshake Done with", self.addr)
                     self.emit("handshake-done")
                 else:
-                    self.emit("handshake-error", Exception(f"MAGIC KEY DOES NOT MATCHES, {recv} != {magicKey}"))
-            
+                    e=Exception(f"MAGIC KEY DOES NOT MATCHES, {recv} != {magicKey}")
+                    logging.exception(f"An exception occurred: {e}")
+                    self.emit("handshake-error", e)
+
         except Exception as e:
+            print("HANDSHAKE FAILED")
+            logging.exception(f"An exception occurred: {e}")
             self.emit("handshake-error", e)
         else:
             # self.handshakeDone = True
@@ -257,9 +268,17 @@ class ClientSocket(EventEmitter):
         self.eventThread.start()
 
     def disconnect(self):
-        self.sel.unregister(self.csoc)
-        self.csoc.close()
+        try:
+            self.sel.unregister(self.csoc)
+        except:
+            pass
+        try:
+            self.csoc.close()
+        except:
+            pass
         self.csoc = None
+        self.stopThread=True
+        # self.eventThread.join()
 
     def send(self, message:bytes):
         self.data.outb += message
@@ -294,6 +313,9 @@ class ClientSocket(EventEmitter):
         print("Client EVENT LOOP STARTED")
         try:
             while True:
+                if self.stopThread:
+                    self.stopThread=False
+                    return
                 events = self.sel.select(timeout=None)
                 for key, mask in events:
                     self.__handle_RW_events(key, mask)
@@ -302,12 +324,14 @@ class ClientSocket(EventEmitter):
             exit(2)
         except Exception as e:
             print("Exiting (client): " , e)
+            logging.exception(f"An exception occurred: {e}")
             self.emit("error", e)
             self.sel.close()
             self.emit("disconnected")
         finally:
             pass
-            
+        print("Event Loop ended")
+
 if __name__ == "__main__":
     ee = EventEmitter()
     ee.on("call", lambda arr : print(arr))

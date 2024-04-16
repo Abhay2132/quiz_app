@@ -7,20 +7,24 @@ class Scores(SCORE):
     """Score Mangaer Class"""
     scores:dict= dict() # client ID -> SCORE
 
-    def __init__(self, IDs) -> None:
+    def __init__(self, IDs, minScore=0) -> None:
         self.scores = dict()
         for id in IDs:
             self.scores[id] = 0
-        pass
+        self.minScore=minScore
 
     def get(self, id):
         return self.scores.get(id)
     
     def set(self, id, val):
+        if val < self.minScore:
+            val = self.minScore
         self.scores[id] = val
     
     def add(self, id, val):
         self.scores[id] += val
+        if self.scores[id] < self.minScore:
+            self.scores[id] = self.minScore
         # if 
 
     def addUser(self, id, score=0):

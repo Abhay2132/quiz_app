@@ -44,7 +44,7 @@ class Round3(ROUND):
     
     def __init__(self, master, isAdmin=False,**kwargs):
 
-        super().__init__(master=master, isAdmin=isAdmin, has_options=True, **kwargs)
+        super().__init__(master=master, isAdmin=isAdmin, **kwargs)
         self.q_frame = Question_Frame(self)
         super().setQFrame(self.q_frame)
 
@@ -68,24 +68,3 @@ class Round3(ROUND):
         
     def hide(self):
         self.pack_forget()
-
-    def setQ(self, q:ClientQuestion):
-        print("Setting Round-III QUESTION")
-        self.f_question.resetOptions()
-
-        self.f_question.resetOptions()
-        # print(q.jsons())
-        self.qid = q.qid
-        # for option in q.optionsT:
-        self.f_question.l_question.configure(text=q.text)
-        t_options = q.optionsT()
-        for option, l_option in zip(t_options, self.f_question.options):
-            l_option.configure(text=option)
-        if self.selectedOption:
-            set_option_normal
-            (self.f_question.options[self.selectedOption-1])#.configure(border_color="#888")
-            self.selectedOption=None
-    
-    def show_answer(self, correct_i, selected_i=None):
-        if selected_i:self.f_question.setCorrect(correct_i)
-        self.f_question.setSelected(selected_i, True)

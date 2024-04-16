@@ -11,26 +11,38 @@ from .settings import addr, getWIFI, port
 
 class User(USER):
     ui:App=None
+    connecting=False
+
     def __init__(self) -> None:
         USER.me=self
         _GLOBALs['user']=self
         self.ui = App()
-        # self.client = ClientSocket(addr)
-        self.client = ClientSocket(addr=(getWIFI(), port))
+        USER.me = self
+
+    def login(self):
+        if self.connecting: return
+        self.connecting = True
+        print("doing Login")
+        self.client = ClientSocket(addr)
+        # self.client = ClientSocket(addr=(getWIFI(), port))
         self.client.on("handshake-done", self.onHandshakeDone)
-        # self.client.on("disconnected", self.reconnect)
+        self.client.on("handshake-error", self.reconnect)
+        self.client.on("disconnected", self.reconnect)
         self.client.on("data", self.handleDataEvent)
         # self.client.attach(print)
-        USER.me = self
+        self.client.connect()
+        # self
 
     def submit_answer(self, qid, answer):
         self.client.send(createPayload("checkanswer", {"qid":qid, "answer":answer}))
         pass
 
     def handleDataEvent(self, args):
+
         payload = args[0]
         payload = json.loads(payload)
 
+        print(f"PAYLOAD : {payload}")
         action = payload["action"]
         data = payload["data"]
 
@@ -49,20 +61,28 @@ class User(USER):
             q=ClientQuestion(qid=d["qid"], text=d["text"], options=d["options"], imgPath=d["imgPath"])
             self.ui.mainpanel.activeframe.setQ(q)
             pass
-        pass
+        
     def reconnect(self, *args):
         print("reconnecting after 3 secs")
-        self.ui.after(3000, lambda *args : self.client.connect())
+        self.connecting=False
+        self.client.off_all()
+        self.client.disconnect()
+        self.ui.after(3000, self.login)
 
     def start(self):
         self.ui.show()
 
     def onHandshakeDone(self, args):
+        self.connecting = False
         print("setting active Frame")
         self.ui.mainpanel.setActiveFrame(self.ui.mainpanel.f_screensaver)
         print("sending name")
         payload = createPayload("setname", self.name)
         self.client.send(payload)
+
+    def on_buzzer_pressed(self, qid):
+        self.client.send(createPayload("buzzer-pressed", ))
+
 
 def main():
     user = User()

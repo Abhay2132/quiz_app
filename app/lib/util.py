@@ -41,7 +41,7 @@ class Participants():
         names = [self.__participants[i].name for i in self.__participants]
         return names
 
-def createPayload(action:str, data:dict|str)->bytes:
+def createPayload(action:str, data:dict|str=None)->bytes:
     return bytes(json.dumps({"action":action, "data":data}), encoding="utf-8")
 
 
