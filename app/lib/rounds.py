@@ -32,7 +32,7 @@ class Round2(Round):
 
     def check_answer(self, qid, answer):
         rightAns = super().check_answer(qid, answer)
-        self.admin.show_right_answer(qid, answer, rightAns)
+        self.admin.show_right_answer(qid, rightAns, answer)
     
 class Round3(Round):
     name="Roll the Dice"

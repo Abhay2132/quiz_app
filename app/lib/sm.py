@@ -21,6 +21,7 @@ class Scores(SCORE):
     
     def add(self, id, val):
         self.scores[id] += val
+        # if 
 
     def addUser(self, id, score=0):
         self.scores[id] = score

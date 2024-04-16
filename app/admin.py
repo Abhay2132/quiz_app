@@ -13,7 +13,7 @@ from .ui.admin.frames.live import PlayFrame, LiveFrame
 from ._globals import _GLOBALs
 
 class Admin(ADMIN):
-    curr_round_i=3
+    curr_round_i=1
     min_participants=1
 
     rounds=tuple()
@@ -23,8 +23,8 @@ class Admin(ADMIN):
         ADMIN.me = self
         self.ui=App()
         self.qBank = QuestionBank(qdir=os.path.join(os.getcwd(), "data", "questions"))
-        # self.server = ServerSocket(addr=addr)
-        self.server = ServerSocket(addr=(getHOTSPOT(), port))
+        self.server = ServerSocket(addr=addr)
+        # self.server = ServerSocket(addr=(getHOTSPOT(), port))
         self.server.on("new-connection", self.addParticipant)
         self.server.on("data", self.handleDataEvents)
         self.server.on("disconnected", self.onDisconnect)
@@ -118,8 +118,10 @@ class Admin(ADMIN):
         pass
         # self.roundUIs = (Round1(self.ui.f_main.f_live.f_play.))
 
-    def show_right_answer(self, qid, answer, rightAns):
-
+    def show_right_answer(self, qid, rightAns, answer):
+        pf:PlayFrame = PlayFrame.me
+        if pf.curr_round.hasOptions: pf.curr_round.show_answer(rightAns, answer)
+        # show_answer(self, correct_i, selected_i):
         pass
 
 def main():

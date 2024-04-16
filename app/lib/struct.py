@@ -32,23 +32,21 @@ class Round():
         self.name=name
 
     def check_answer(self, qid, answer):
-        print("CHECKING ANSWER", qid, answer)
         self.lastQuestionMarked=True
         rightAns = None
         for question in self.__questions:
             if str(qid) == str(question.qid):
                 rightAns=question.answer
         isRight=int(rightAns)==int(answer)
+        print(f"CHECKING ANSWER qid:{qid}, ans:{answer}, correct:{rightAns}")
         participantID = self.admin.participants.getClientIDs()[self.currentParticipant]
         if isRight:
             self.curr_scores.add(participantID, self.mark)
         else:
             self.curr_scores.add(participantID, self.minusMark)
 
-        # else:
-
         print(isRight)
-        rightAns
+        return rightAns
         
     def loadQ(self):
         allQuestions = list(self.__questions)

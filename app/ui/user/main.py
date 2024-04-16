@@ -27,6 +27,7 @@ class MainPanel(ctk.CTkFrame):
         self.f_round3=Round3(self)
         self.f_round4=Round4(self)
         self.f_screensaver=ScreenSaver(self)
+
         self.activeframe=self.f_login
         
     def show(self):
@@ -37,13 +38,10 @@ class MainPanel(ctk.CTkFrame):
 class App(ctk.CTk):
     hight,width=400,800
     me =None
-    app = None
-    activeRound=None
 
     def __init__(self, app=None, **kwargs):
         super().__init__(fg_color=None, **kwargs)
         App.me = self
-        self.app = app
         # self.geometry(f'{self.width}x{self.hight}')
         self.title("PARTICIPANT")
         self.geometry("800x600")

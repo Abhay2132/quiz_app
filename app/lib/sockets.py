@@ -1,3 +1,5 @@
+import logging
+
 from sys import exit
 from selectors import DefaultSelector, EVENT_READ, EVENT_WRITE
 from types import SimpleNamespace
@@ -168,9 +170,11 @@ class ServerSocket(EventEmitter):
 
             except KeyboardInterrupt:
                 print("Exiting by Keyboard Interrupt")
+
                 exit(1)
             except Exception as e:
                 print("Exiting (EventLoop) : ", e)
+                logging.exception(f"An exception occurred: {e}")
                 self._disconnect(lastConnKey)
             finally:
                 pass
