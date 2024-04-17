@@ -13,7 +13,7 @@ from .ui.admin.frames.live import PlayFrame, LiveFrame
 from ._globals import _GLOBALs
 
 class Admin(ADMIN):
-    curr_round_i=2
+    curr_round_i=0
     min_participants=1
     currentRound = None
     rounds=tuple()
