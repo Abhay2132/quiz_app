@@ -16,7 +16,7 @@ class QuestionFrame(ctk.CTkFrame):
         self.option=options
 
     def createOption(self, master, text, i):
-        return ctk.CTkButton(master, width=200, height=40, text=text, border_color="#888", border_width=2,text_color="black",hover_color="#eee", font=("Roboto", 18), fg_color="transparent", command=lambda:self.setSelected(i))
+        return ctk.CTkButton(master, width=200, height=40, text=text, border_color="#888", border_width=2,hover_color="#eee", font=("Roboto", 18), fg_color="transparent", command=lambda:self.setSelected(i))
     
     def on_submit(self):
         r:ROUND=self.master
@@ -70,7 +70,7 @@ class ROUND(ctk.CTkFrame):
     f_question:QuestionFrame=None
     hasOptions=True
     running=False
-    time_limit = 20
+    time_limit = 30
     l_timer:ctk.CTkLabel=None
     hasSubmit=None
     rid=None
@@ -80,6 +80,7 @@ class ROUND(ctk.CTkFrame):
 
     def setLTimer(self, l):
         self.l_timer=l
+    
     def __init__(self,master, isAdmin,has_options=True, has_submit=True,id=None, **kwargs):
         super().__init__(master,**kwargs)
         # self.f_question = QFrame(self, options=(list() if has_options else None))
