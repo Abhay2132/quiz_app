@@ -89,6 +89,25 @@ class ROUND(ctk.CTkFrame):
         self.hasSubmit = has_submit
         self.rid=id
 
+    
+    def limit_line_length(text, limit):
+        words = list(text.split(" "))
+        para = list()
+        line = ""
+        for i,word in enumerate(words):
+            if i < len(words)-1:
+                word+=" "
+            newline = line + word
+            if len(newline) > limit:
+                # line = line+"\n"+word
+                para.append(line)
+                line = word
+            else:
+                line = newline
+        para.append(line)
+        return "\n".join(para)
+    
+
     def setQ(self, q:ClientQuestion):
         if self.hasSubmit: self.f_question.b_submit.configure(state=ctk.NORMAL)
         self.reset_timer()
@@ -97,15 +116,16 @@ class ROUND(ctk.CTkFrame):
         self.qid = q.qid
 
         q_size = 40
-        if len(q.text) > q_size:
-            parts = list()
-            start=0
-            end = q_size
-            while start < len(q.text):
-                parts.append(q.text[start:end])
-                start += q_size
-                end += q_size
-            q.text = "\n".join(parts)
+        q.text = self.limit_line_length(q.text, q_size)
+        # if len(q.text) > q_size:
+        #     parts = list()
+        #     start=0
+        #     end = q_size
+        #     while start < len(q.text):
+        #         parts.append(q.text[start:end])
+        #         start += q_size
+        #         end += q_size
+        #     q.text = "\n".join(parts)
 
         self.f_question.l_question.configure(text=q.text)
 
