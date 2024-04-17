@@ -4,6 +4,8 @@ import json
 import os
 import random
 import string
+import customtkinter as ctk
+from PIL import Image
 
 def rand_str(length=10):
   """Generates a random string of the specified length.
@@ -88,6 +90,16 @@ class UI:
     parent=None
     def show(self):
         pass
+
+def setImage(imgPath, target:ctk.CTkLabel):
+        image = Image.open(imgPath)
+        width, height = image.size
+        # l_width=int(target.winfo_width())
+        l_width=int(target.cget("width"))
+        height = height/width*l_width
+        print(f"{width}x{height}")
+        image = ctk.CTkImage(image, size=(l_width,height))
+        target.configure(image=image, text="")
 
 def copy_file(source_path, destination_path, new_name):
   """Copies a file from source to destination with a new name.

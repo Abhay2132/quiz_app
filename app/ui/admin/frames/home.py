@@ -1,5 +1,6 @@
 import customtkinter as ctk
-# from .utils import rc``
+from .utils import setImage
+import os
 
 # class HomeFrame(cctk.CTkFrame):
 #     def __init__(self, master, **kw):
@@ -20,10 +21,12 @@ class HomeFrame(ctk.CTkFrame, UI):
         self.app = app
         
         self.configure(fg_color="#fff",height=500, width=600)
-        self.l_logo = ctk.CTkLabel(self, height=300, width=300,fg_color="#aaa", text="")#, image=self.logo_photo, borderwidth=0)
+        self.l_logo = ctk.CTkLabel(self, height=300, width=300,fg_color="transparent", text="")#, image=self.logo_photo, borderwidth=0)
         self.l_title = ctk.CTkLabel(self, text="- Parashan Baan -", font=("sans", 20))
         self.b_start = ctk.CTkButton(self,height=40, width=200,text="Start", command=self.start_action,fg_color="green", font=("sans", 15))# bg="#007bff", fg="white", width=29, relief=ctk.FLAT)
         self.b_settings = ctk.CTkButton(self, height=40, width=200, text="⚙️ Settings", command=self.settings_action, fg_color="blue", font=("sans", 15))# bg="#28a745", fg="white", width=29, relief=ctk.FLAT)
+
+        setImage(os.path.join(os.getcwd(), "data", "icons", "login_logo.jpg"), self.l_logo)
     
     def start_action(self):
         self.app.f_main.setActiveFrame(self.app.f_main.f_live)

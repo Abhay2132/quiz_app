@@ -11,7 +11,7 @@ from CTkToolTip import *
 from ...lib.util import Obj
 from .structs import _App, _SideFrame, _MainFrame
 
-ctk.set_appearance_mode("light")
+ctk.set_appearance_mode("dark")
 
 
 class SidePanel(_SideFrame):
@@ -21,12 +21,13 @@ class SidePanel(_SideFrame):
         self.configure(fg_color=("#fff", "#444"), width=400)
         self.parent = master
 
-        self.b_logo = ctk.CTkButton(self, text="LOGO", **self.commons.copy().set(fg_color="red", height=self.commons["width"]))
+        self.b_logo = ctk.CTkLabel(self, image=None, text="LOGO", width=140, bg_color="#444")
         self.b_home = self.button("HOME",self.click_home, ("home_dark.png", "home_light.png"))
         self.b_live = self.button("LIVE",self.click_live, ("live_dark.png", "live_light.png"))
         self.b_qb = self.button("QUESTIONS",self.click_questions, ("database_dark.png", "database_light.png"))
         self.b_participants = self.button("PARTICIPANTS",self.click_participants, ("users_dark.png", "users_light.png"))
         self.b_settings = self.button("SETTINGS",self.click_settings, ("settings_dark.png", "settings_light.png"))
+        self.setLogo(os.path.join(os.getcwd(), "data", "icons", "admin_logo.jpg"))
 
         # self.setActiveItem(self.b_home)
 
@@ -89,8 +90,16 @@ class SidePanel(_SideFrame):
         self.b_participants.pack(fill=ctk.X, **commons)
         self.b_settings.pack(fill=ctk.X, side=ctk.BOTTOM, **commons)
         self.b_qb.pack(side=ctk.BOTTOM,fill=ctk.X, **commons)
-
         self.grid(row=0, column=0, stick="nsw")
+
+    def setLogo(self, imgPath):
+        image = Image.open(imgPath)
+        width, height = image.size
+        l_width=int(self.b_logo.cget("width"))
+        height = height/width*l_width
+        print(f"{width}x{height}")
+        image = ctk.CTkImage(image, size=(l_width,height))
+        self.b_logo.configure(image=image, text="")
 
 class MainPanel(_MainFrame):
 

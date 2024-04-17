@@ -7,7 +7,7 @@ from ..rounds.round3 import Round3
 from ..rounds.round4 import Round4
 from ..._globals import _GLOBALs
 
-ctk.set_appearance_mode('light')
+ctk.set_appearance_mode('dark')
 
 class MainPanel(ctk.CTkFrame):
     f_login=None
@@ -29,8 +29,8 @@ class MainPanel(ctk.CTkFrame):
         self.f_round4=Round4(self)
         self.f_screensaver=ScreenSaver(self)
 
-        # self.activeframe=self.f_round1
-        self.activeframe=self.f_login
+        self.activeframe=self.f_round1
+        # self.activeframe=self.f_login
         
         
     def show(self):
@@ -45,6 +45,7 @@ class App(ctk.CTk):
     def __init__(self, app=None, **kwargs):
         super().__init__(fg_color=None, **kwargs)
         App.me = self
+        _GLOBALs["app:user"] = self
         
         # self.geometry(f'{self.width}x{self.hight}')
         self.title("PARTICIPANT")

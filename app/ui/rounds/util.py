@@ -15,7 +15,7 @@ def set_option_correct(l_option):
     l_option.configure(fg_color="#00A36C", hover_color="#00A36C", text_color="#fff")
     # l_option.configure("")
 
-def createLogo(self, imgPath):
+def createLogo(self, imgPath, size=None):
     image = Image.open(imgPath)
     width, height = image.size
     l_width=int(self.icon.cget("width"))
