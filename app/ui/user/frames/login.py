@@ -13,7 +13,7 @@ class Form(ctk.CTkFrame):
         self.userid = ctk.CTkLabel(self, text="UserID:",font=('Helvetica', 18, 'bold'),text_color='#DAA520')
         self.e_userid = ctk.CTkEntry(self,placeholder_text="Enter the ID...",font=('Helvetica', 14),width=200)
         self.submit_b = ctk.CTkButton(self, text='Login',fg_color="blue",hover_color="lightblue",command=self.click_submit)
-        self.l_info=ctk.CTkLabel(self, text="USER-ID should be greater than 3 letters", anchor="w", fg_color="transparent", font=("Roboto", 13))
+        self.l_info=ctk.CTkLabel(self, text="", anchor="w", fg_color="transparent", font=("Roboto", 13))
 
     def click_submit(self):
 
