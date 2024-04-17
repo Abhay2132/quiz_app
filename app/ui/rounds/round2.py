@@ -53,6 +53,7 @@ class Round2(ROUND):
         self.image=ctk.CTkLabel(self,fg_color='white',text_color='black',width=400,height=500, text="")#,image=img)
 
         super().setLTimer(self.l_timer)
+        # self.setQ(ClientQuestion(1,"*"*400,"1,2,3,4", ""))
 
 
     def show(self):

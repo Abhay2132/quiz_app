@@ -95,6 +95,17 @@ class ROUND(ctk.CTkFrame):
         self.f_question.resetOptions()
         self.qid = q.qid
 
+        q_size = 40
+        if len(q.text) > q_size:
+            parts = list()
+            start=0
+            end = q_size
+            while start < len(q.text):
+                parts.append(q.text[start:end])
+                start += q_size
+                end += q_size
+            q.text = "\n".join(parts)
+
         self.f_question.l_question.configure(text=q.text)
 
         if not bool(self.f_question.option):
