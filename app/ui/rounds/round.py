@@ -90,7 +90,7 @@ class ROUND(ctk.CTkFrame):
         self.rid=id
 
     
-    def limit_line_length(text, limit):
+    def limit_line_length(self, text, limit):
         words = list(text.split(" "))
         para = list()
         line = ""
