@@ -11,9 +11,9 @@ class Form(ctk.CTkFrame):
 
         self.icon=ctk.CTkLabel(self, fg_color="transparent",width=500,height=300,text="icon goes here")
         self.userid = ctk.CTkLabel(self, text="UserID:",font=('Helvetica', 18, 'bold'),text_color='#DAA520')
-        self.e_userid = ctk.CTkEntry(self,placeholder_text="Enter the ID...",font=('Helvetica', 14),text_color='black',width=200)
+        self.e_userid = ctk.CTkEntry(self,placeholder_text="Enter the ID...",font=('Helvetica', 14),width=200)
         self.submit_b = ctk.CTkButton(self, text='Login',fg_color="blue",hover_color="lightblue",command=self.click_submit)
-        self.l_info=ctk.CTkLabel(self, text="Login with unique Name", anchor="w", fg_color="transparent", font=("Roboto", 13))
+        self.l_info=ctk.CTkLabel(self, text="USER-ID should be greater than 3 letters", anchor="w", fg_color="transparent", font=("Roboto", 13))
 
     def click_submit(self):
 
@@ -59,14 +59,15 @@ class LoginFrame(ctk.CTkFrame):
             self, text="Login", fg_color='transparent',
             font=('Garamond', 50), text_color='#00FF00',
             )
+        self.f_form = Form(self)
+
     def show(self):
         # Create an instance of the Entery class (enhanced)
-        self.entry = Form(self)
 
         # Place elements using grid for layout control
         self.title_page.grid(row=0, column=0, sticky='nsew', padx=20, pady=20)
-        self.entry.grid(row=1, column=0, padx=20, pady=20)
-        self.entry.show()
+        self.f_form.grid(row=1, column=0, padx=20, pady=20)
+        self.f_form.show()
 
         # Configure LoginFrame's grid for centering
         self.grid_columnconfigure(0, weight=1)  # Make the single column flexible

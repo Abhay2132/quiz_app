@@ -48,6 +48,7 @@ class Round():
 
         print(isRight)
         return rightAns
+    
         
     def loadQ(self):
         allQuestions = list(self.questions__)
@@ -67,6 +68,11 @@ class Round():
     def askQ(self):
         participantID = self.admin.participants.getClientIDs()[self.curr_participant_i]
         question:Question = self.questions__[self.curr_question_i]
+        
+        # self.admin.server.broadcast(createPayload("setscreensaver"))
+        for cid in self.admin.participants.getClientIDs():
+            if cid == participantID : continue
+            self.admin.server.sendAllTo(createPayload("setscreensaver"), cid)
         self.admin.askQ(participantID, question.forParticipant())
         pf:PlayFrame = PlayFrame.me
         name = self.admin.participants.getNames()[self.curr_participant_i]

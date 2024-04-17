@@ -41,6 +41,8 @@ class Admin(ADMIN):
         # self.curr_round_i=2
         self.currentRound=self.rounds[self.curr_round_i]
 
+    # def set_screensaver()
+
     def onDisconnect(self, args):
         clientID=args[0]
         # print("DISCONNECTED : ", args)
