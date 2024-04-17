@@ -5,7 +5,7 @@ from ...lib.qb import ClientQuestion
 from .util import set_option_selected, set_option_normal,set_option_correct
 from .round import QuestionFrame, ROUND
 import random as rand
-
+import os
 
 class Question_Frame(QuestionFrame):
 
@@ -88,10 +88,13 @@ class Round3(ROUND):
 
         # super().__init__(master, **kwargs)
         self.isAdmin=isAdmin
-        self.page_title=ctk.CTkLabel(self,text="ROLL THE DICE",fg_color="transparent",font=('Garamond', 50),text_color="blue")
-        self.round_title=ctk.CTkLabel(self,text='ROUND 3',fg_color="transparent",font=('Garamond',14),text_color="black")
-        self.logo=ctk.CTkLabel(self,text='Logo',fg_color="white",width=50,height=50,text_color="red")
-        self.l_timer=ctk.CTkLabel(self,text='timer',fg_color='blue',width=70,height=30,text_color='white')
+        # self.page_title=ctk.CTkLabel(self,text="ROLL THE DICE",fg_color="transparent",font=('Garamond', 50),text_color="blue")
+        self.page_title=ctk.CTkLabel(self,text="PRASHAN BAAN",fg_color="transparent",font=('Garamond', 50),text_color="blue")
+        self.round_title=ctk.CTkLabel(self,text='ROLL THE DICE',fg_color="transparent",font=('Garamond',18),text_color="black")
+        # self.l_logo=ctk.CTkLabel(self,text='Logo',fg_color="white",width=50,height=50,text_color="red")
+        self.l_logo=ctk.CTkLabel(self,text='Logo',fg_color="transparent",width=100,height=100,text_color="red")
+        # self.l_timer=ctk.CTkLabel(self,text='timer',fg_color='blue',width=70,height=30,text_color='white')
+        self.l_timer=ctk.CTkButton(self, text="20s", fg_color="transparent", border_color="#888", border_width=2, corner_radius=5,font=("Roboto", 20), hover=False, width=80, height=40, text_color="#333")
         self.f_question=Question_Frame(self)
         super().setLTimer(self.l_timer)
 
@@ -101,12 +104,16 @@ class Round3(ROUND):
     def show(self):
         self.page_title.grid(row=0, column=0, sticky='nsew', padx=20, pady=20, columnspan=2)
         self.round_title.grid(row=1,column=0,sticky='nwe',padx=20,pady=0, columnspan=2)
-        self.logo.grid(row=0,column=0,sticky='nw',padx=20,pady=20, columnspan=2)
+        self.l_logo.grid(row=0,column=0,sticky='nw',padx=20,pady=20, columnspan=2)
         self.l_timer.grid(row=0,column=0,sticky='ne',padx=20,pady=20, columnspan=2)
 
         self.f_question.grid(row=2, column=0, padx=20, pady=20)
         self.f_question.show()
         self.grid_columnconfigure(0, weight=1) 
+        
+        # self.l_round_index.grid(row=0,column=0,sticky='nwe',padx=20,pady=(60,))
+        logo_path = os.path.join(os.getcwd(), "data", "icons", "round_logo.png")
+        self.setLogo(logo_path)
 
         # for testing
         # if True:

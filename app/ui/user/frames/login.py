@@ -1,11 +1,15 @@
 import customtkinter as ctk
 from ....lib.struct import USER
+from PIL import Image
+import os
 
 # Entry and Login Panel (Enhanced)
 class Form(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master=master, fg_color='transparent',border_color="white",border_width=2, **kwargs)
-        self.icon=ctk.CTkLabel(self,fg_color="blue",width=500,height=300,text="icon goes here")
+
+
+        self.icon=ctk.CTkLabel(self, fg_color="transparent",width=500,height=300,text="icon goes here")
         self.userid = ctk.CTkLabel(self, text="UserID:",font=('Helvetica', 18, 'bold'),text_color='#DAA520')
         self.e_userid = ctk.CTkEntry(self,placeholder_text="Enter the ID...",font=('Helvetica', 14),text_color='black',width=200)
         self.submit_b = ctk.CTkButton(self, text='Login',fg_color="blue",hover_color="lightblue",command=self.click_submit)
@@ -29,6 +33,21 @@ class Form(ctk.CTkFrame):
         self.submit_b.grid(row=3, column=0, padx=20, pady=(15,0), )#sticky='we')
         self.l_info.grid(row=4, column=0, padx=50, pady=(10,15), sticky="we")
         self.after(400, lambda : self.e_userid.focus())
+
+        # img=None
+        logo_path = os.path.join(os.getcwd(), "data", "icons", "login_logo.jpg")
+        self.setImage(logo_path)
+        # if os.path.exists(logo_path) and os.path.isfile(logo_path):
+        #     img = ctk.CTkImage(Image.open(logo_path))
+
+    def setImage(self, imgPath):
+        image = Image.open(imgPath)
+        width, height = image.size
+        l_width=int(self.icon.cget("width"))
+        height = height/width*l_width
+        print(f"{width}x{height}")
+        image = ctk.CTkImage(image, size=(l_width,height))
+        self.icon.configure(image=image, text="")
 
 # Main Login Frame (Enhanced)
 class LoginFrame(ctk.CTkFrame):

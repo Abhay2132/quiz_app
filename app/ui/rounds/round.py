@@ -178,5 +178,12 @@ class ROUND(ctk.CTkFrame):
             # self.start_button.configure(state="normal")
             if self.hasSubmit: self.f_question.b_submit.configure(state="disabled")
 
-
+    def setLogo(self, imgPath):
+        image = Image.open(imgPath)
+        width, height = image.size
+        l_width=int(self.l_logo.cget("width"))
+        height = height/width*l_width
+        print(f"{width}x{height}")
+        image = ctk.CTkImage(image, size=(l_width,height))
+        self.l_logo.configure(image=image, text="")
 

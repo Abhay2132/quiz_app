@@ -46,10 +46,13 @@ class Round2(ROUND):
         
         self.isAdmin=isAdmin
         Round2.me=self
-        self.page_title=ctk.CTkLabel(self,text="BUJHO TO JANO",fg_color="transparent",font=('Garamond', 50),text_color="blue")
-        self.round_title=ctk.CTkLabel(self,text='ROUND 2',fg_color="transparent",font=('Garamond',14),text_color="black")
-        self.logo=ctk.CTkLabel(self,text='Logo',fg_color="white",width=50,height=50,text_color="red")
-        self.l_timer=ctk.CTkLabel(self,text='timer',fg_color='blue',width=70,height=30,text_color='white')
+        # self.page_title=ctk.CTkLabel(self,text="BUJHO TO JANO",fg_color="transparent",font=('Garamond', 50),text_color="blue")
+        self.page_title=ctk.CTkLabel(self,text="PRASHAN BAAN",fg_color="transparent",font=('Garamond', 50),text_color="blue")
+        self.round_title=ctk.CTkLabel(self,text='BUJHO TO JANO',fg_color="transparent",font=('Garamond',18),text_color="black")
+        # self.l_logo=ctk.CTkLabel(self,text='Logo',fg_color="white",width=50,height=50,text_color="red")
+        self.l_logo=ctk.CTkLabel(self,text='Logo',fg_color="transparent",width=100,height=100,text_color="red")
+        # self.l_timer=ctk.CTkLabel(self,text='timer',fg_color='blue',width=70,height=30,text_color='white')
+        self.l_timer=ctk.CTkButton(self, text="20s", fg_color="transparent", border_color="#888", border_width=2, corner_radius=5,font=("Roboto", 20), hover=False, width=80, height=40, text_color="#333")
         self.image=ctk.CTkLabel(self,fg_color='white',text_color='black',width=400,height=500, text="")#,image=img)
 
         super().setLTimer(self.l_timer)
@@ -59,12 +62,16 @@ class Round2(ROUND):
     def show(self):
         self.page_title.grid(row=0, column=0, sticky='nsew', padx=20, pady=20)
         self.round_title.grid(row=1,column=0,sticky='nwe',padx=20,pady=0)
-        self.logo.grid(row=0,column=0,sticky='nw',padx=20,pady=20)
+        self.l_logo.grid(row=0,column=0,sticky='nw',padx=20,pady=20)
         self.l_timer.grid(row=0,column=0,sticky='ne',padx=20,pady=20)
         self.image.grid(row=1,column=0,sticky='nw',padx=40,pady=20)
         self.f_question.show()
         self.grid_columnconfigure(0, weight=1) 
         self.pack( fill=ctk.BOTH,expand=True, padx=20, pady=20)
+
+        # self.l_round_index.grid(row=0,column=0,sticky='nwe',padx=20,pady=(60,))
+        logo_path = os.path.join(os.getcwd(), "data", "icons", "round_logo.png")
+        self.setLogo(logo_path)
         # self.show_answer(2,3)
 
         # self.start_timer()
