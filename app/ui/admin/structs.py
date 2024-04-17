@@ -17,16 +17,17 @@ class _SideFrame(ctk.CTkFrame, UI):
         width=150,
         corner_radius= 5,
         fg_color= "transparent",
-        hover_color= ("#bbb", "#333"),
+        hover_color= ("#3A5DD4", "#333"),
         border_spacing=8,
         # text_color=("gray10", "gray90"),
         font=("calibri", 13),
         border_width = 0,
-        text_color=("#333", "#eee")
+        text_color="#eee"
     )
     activeConfig = {
-        "fg_color" : ("#aaf", "#111"),
-        "hover_color" : ("#aaf", "#111"),
+        "fg_color" : ("#253C8A", "#111"),
+        "hover_color" : ("#253C8A", "#111"),
+        "text_color":("#fff","#eee")
     }
 
     def setActiveItem(self, item):

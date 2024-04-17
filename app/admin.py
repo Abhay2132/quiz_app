@@ -24,8 +24,8 @@ class Admin(ADMIN):
         ADMIN.me = self
         self.ui=App()
         self.qBank = QuestionBank(qdir=os.path.join(os.getcwd(), "data", "questions"))
-        self.server = ServerSocket(addr=addr)
-        # self.server = ServerSocket(addr=(getHOTSPOT(), port))
+        # self.server = ServerSocket(addr=addr)
+        self.server = ServerSocket(addr=(getHOTSPOT(), port))
         self.server.on("new-connection", self.addParticipant)
         self.server.on("data", self.handleDataEvents)
         self.server.on("disconnected", self.onDisconnect)

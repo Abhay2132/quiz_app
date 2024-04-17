@@ -29,14 +29,13 @@ class MainPanel(ctk.CTkFrame):
         self.f_round4=Round4(self)
         self.f_screensaver=ScreenSaver(self)
 
-        self.activeframe=self.f_round1
-        # self.activeframe=self.f_login
+        # self.activeframe=self.f_round1
+        self.activeframe=self.f_login
         
         
     def show(self):
         self.activeframe.show()
         self.pack(fill=ctk.BOTH, expand=True,padx=20,pady=20)  # Fills and expands to center
-
 
 class App(ctk.CTk):
     hight,width=400,800
@@ -46,8 +45,7 @@ class App(ctk.CTk):
         super().__init__(fg_color=None, **kwargs)
         App.me = self
         _GLOBALs["app:user"] = self
-        
-        # self.geometry(f'{self.width}x{self.hight}')
+
         self.title("PARTICIPANT")
         self.geometry("800x600")
         self.after(10, lambda:self.state("zoomed"))
@@ -55,7 +53,6 @@ class App(ctk.CTk):
         self.grid_columnconfigure(0,weight=1)
         self.grid_rowconfigure(0,weight=1)
         self.mainpanel=MainPanel(self)
-
 
     def show(self):
         self.mainpanel.show()

@@ -19,7 +19,7 @@ class Round1(ROUND):
     curr_q:ClientQuestion = None
     def __init__(self, master, isAdmin=False, **kwargs):
 
-        super().__init__(master,isAdmin=isAdmin, has_options=False, has_submit=False, **kwargs)
+        super().__init__(master,isAdmin=isAdmin, fg_color="#333", has_options=False, has_submit=False, **kwargs)
         
 
         self.grid_columnconfigure(0, weight=1)
@@ -65,9 +65,9 @@ class Round1(ROUND):
             image = Image.open(imgPath)
             width, height = image.size
             # l_width=int(target.cget("width"))
-            l_height = _GLOBALs["app:user"].winfo_width()
+            # l_height = _GLOBALs["app:user"].winfo_width()
             # l_width = width/height*l_height
-            l_width = _GLOBALs["app:user"].winfo_height()
+            # l_width = _GLOBALs["app:user"].winfo_height()
             print(f"bg : {width}x{height}")
             image = ctk.CTkImage(image, size=(1400,1000))
             target.configure(image=image, text="")

@@ -11,14 +11,15 @@ from CTkToolTip import *
 from ...lib.util import Obj
 from .structs import _App, _SideFrame, _MainFrame
 
-ctk.set_appearance_mode("dark")
+ctk.set_appearance_mode("light")
 
 
 class SidePanel(_SideFrame):
 
     def __init__(self, master, **kwargs):
         super().__init__(master=master, **kwargs)
-        self.configure(fg_color=("#fff", "#444"), width=400)
+        # self.configure(fg_color=("#fff", "#444"), width=400)
+        self.configure(fg_color="#3251B8", width=400, corner_radius=0)
         self.parent = master
 
         self.b_logo = ctk.CTkLabel(self, image=None, text="LOGO", width=140, bg_color="#444")
@@ -109,12 +110,15 @@ class MainPanel(_MainFrame):
         self.activeFrame.show()
 
     def __init__(self, master, **kwargs):
-        super().__init__(master=master, **kwargs)
+        super().__init__(master=master, corner_radius=0, **kwargs)
         self.parent = master
 
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
-        self.configure(fg_color="#dfdfdf")
+        # self.configure(fg_color="#dfdfdf")
+        self.configure(fg_color="#3282F6")
+
+        self.l_bg = ctk.CTkLabel(self, text="", fg_color="#627AFF")
         self.f_home = HomeFrame(self,app=master)
         self.f_live = LiveFrame(self,app=master)
         self.f_qb = QBFrame(self,)

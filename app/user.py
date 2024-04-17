@@ -23,8 +23,8 @@ class User(USER):
         self.connecting = True
         print("doing Login")
         self.client = ClientSocket(addr)
-        # self.client = ClientSocket(addr=(getWIFI(), port))
-        self.client.on("handshake-done", self.onHandshakeDone)
+        self.client = ClientSocket(addr=(getWIFI(), port))
+        # self.client.on("handshake-done", self.onHandshakeDone)
         self.client.on("handshake-error", self.reconnect)
         self.client.on("disconnected", self.reconnect)
         self.client.on("data", self.handleDataEvent)

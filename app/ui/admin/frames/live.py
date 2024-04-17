@@ -19,6 +19,7 @@ class StartFrame(ctk.CTkFrame):
 
         self.f_rounds = RoundsFrame(self)
         self.f_participants = Participants(self)
+        self.f_rounds.configure(fg_color="#3251B8")
 
     def show(self):
         self.grid(row=0, column=0, sticky="nswe")
