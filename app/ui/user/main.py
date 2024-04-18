@@ -7,7 +7,7 @@ from ..rounds.round3 import Round3
 from ..rounds.round4 import Round4
 from ..._globals import _GLOBALs
 
-ctk.set_appearance_mode('dark')
+ctk.set_appearance_mode('light')
 
 class MainPanel(ctk.CTkFrame):
     f_login=None

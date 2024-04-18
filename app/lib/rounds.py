@@ -45,8 +45,9 @@ class Round3(Round):
 
     def check_answer(self, qid, answer):
         rightAns = super().check_answer(qid, answer)
-        # self.admin.show_right_answer(qid, rightAns, answer)
-        if int(rightAns) != int(answer) and self.rolling_i is None:
+        isRight = int(rightAns) == int(answer)
+        if self.rolling_i is not None or isRight: self.admin.show_right_answer(qid, rightAns, answer)
+        if not isRight and self.rolling_i is None:
             self.roll_the_dice()
             pass
     
