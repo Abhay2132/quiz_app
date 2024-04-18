@@ -107,7 +107,7 @@ class Round3(Round):
 
 class Round4(Round):
     name="Speedo Round"
-    totalQ = 20
+    totalQ = 15
     isBuzzerPressed=False
     first_id = None
 

@@ -11,7 +11,7 @@ from ..ui.admin.frames.live import PlayFrame
 class Round():
     admin=None
     questions__:tuple=None
-    num_q = 5
+    num_q = 3
     curr_participant_i:int=0
     curr_question_i:int=0
     isFinished=False
