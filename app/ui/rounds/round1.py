@@ -9,7 +9,7 @@ class Question_Frame(QuestionFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, options=None, border_width=2,border_color='white',width=700,height=400, **kwargs)
         self.configure(fg_color="#aaf", corner_radius=5)
-        self.l_question=ctk.CTkLabel(self,text="Question will Appear Here",font=('Garamond',25),fg_color='transparent',text_color='black',width=500,height=200)
+        self.l_question=ctk.CTkLabel(self,text="Question will Appear Here",font=('Garamond',35),fg_color='transparent',text_color='black',width=500,height=200)
     def show(self):
         self.l_question.grid(row=0,column=0,sticky='nesw',padx=20,pady=20)
         

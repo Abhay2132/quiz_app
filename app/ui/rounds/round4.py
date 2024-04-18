@@ -84,7 +84,7 @@ class Question_Frame(QuestionFrame):
         ## for displaying the quation
         self.desplay_quations=ctk.CTkFrame(self,width=500,height=200,fg_color='white',border_color='black',border_width=0)
         qaution="who is this persion shown in the image"
-        self.l_question=ctk.CTkLabel(self.desplay_quations,text=qaution,font=('Garamond',25),fg_color='white',text_color='black',width=500,height=200)
+        self.l_question=ctk.CTkLabel(self.desplay_quations,text=qaution,font=('Garamond',35),fg_color='white',text_color='black',width=500,height=200)
         self.b_submit=ctk.CTkButton(self,width=100,height=40,text="SUBMIT",border_color='#888', state=ctk.DISABLED, border_width=2,hover=True,hover_color='green', command=self.on_submit)
         self.l_info=ctk.CTkLabel(self,text="- PRESS THE ENTER FIRST -",font=('Garamond',15),fg_color='transparent',text_color='black')
         

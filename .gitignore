@@ -4,3 +4,4 @@ __pycache__
 output
 build
 dist
+data/questions/*.csv

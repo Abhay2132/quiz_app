@@ -16,7 +16,7 @@ class Question_Frame(QuestionFrame):
         self.options = options
 
         self.desplay_quations=ctk.CTkFrame(self,width=500,height=200,fg_color='white',border_color='black',border_width=2)
-        self.l_question=ctk.CTkLabel(self.desplay_quations,text="",font=('Garamond',25),fg_color='white',text_color='black',width=500,height=200)
+        self.l_question=ctk.CTkLabel(self.desplay_quations,text="",font=('Garamond',35),fg_color='white',text_color='black',width=500,height=200)
         self.l_question.pack(expand=True,padx=20,pady=20,fill=ctk.BOTH)
         self.b_submit=ctk.CTkButton(self,width=100,height=40,text="SUBMIT",border_color='#888',border_width=2,hover=True,hover_color='green', command=self.on_submit)
         

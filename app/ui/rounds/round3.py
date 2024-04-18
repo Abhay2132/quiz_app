@@ -21,7 +21,7 @@ class Question_Frame(QuestionFrame):
         # for displaying the quation
         self.desplay_quations=ctk.CTkFrame(self,width=500,height=200,fg_color='white',border_color='black',border_width=2)
         qaution="who is this persion shown in the image"
-        self.l_question=ctk.CTkLabel(self.desplay_quations,text=qaution,font=('Garamond',25),fg_color='white',text_color='black',width=500,height=200)
+        self.l_question=ctk.CTkLabel(self.desplay_quations,text=qaution,font=('Garamond',35),fg_color='white',text_color='black',width=500,height=200)
         self.l_question.pack(expand=True,padx=20,pady=20,fill=ctk.BOTH)
         text_col='black'
         self.b_submit=ctk.CTkButton(self,width=100,height=40,text="SUMIT",border_color='#888',border_width=2,hover=True,hover_color='green', command=self.on_submit)
