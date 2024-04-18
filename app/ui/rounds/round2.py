@@ -30,11 +30,11 @@ class Question_Frame(QuestionFrame):
         self.desplay_quations.grid(row=0,column=0,padx=10,pady=10,sticky='nsew')
         self.desplay_quations.grid_columnconfigure(0,weight=1)
         
-        for i,option in enumerate(self.options):
-            option.grid(row=i+1,column=0,padx=80,pady=5,sticky='we')
+        # for i,option in enumerate(self.options):
+        #     option.grid(row=i+1,column=0,padx=80,pady=5,sticky='we')
             
-        if not self.master.isAdmin:
-            self.b_submit.grid(row=5,column=0,padx=80,pady=5,sticky='w')
+        # if not self.master.isAdmin:
+        #     self.b_submit.grid(row=5,column=0,padx=80,pady=5,sticky='w')
         
 class Round2(ROUND):
 

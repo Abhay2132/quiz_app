@@ -98,11 +98,14 @@ class ClientQuestion():
         # return tuple(filter(bool,self.options.split(",")))
         options_l = list()
         values = list(filter(bool,self.options.split(",")))
+        try:
 
-        for i in range(4):
-            val = values[i] or ""
-            options_l.append(val)
-
+            for i in range(4):
+                val = values[i] or ""
+                options_l.append(val)
+        except:
+            values=("", "", "", ""  )
+            pass
         return tuple(values)
     
     def get_img_path(self):

@@ -1,31 +1,19 @@
 qid,text,options,answer,imgPath
-1,what is the name of this actor?,"Ajay Devgan, Akshay Kumar,Sunil shetty,Anil kapoor",1,ajaydevgan.jpg
-2,What is the name of this flower?,"Lilies,Daisies,Roses,Lotus",3,gardener.png
-3,What is the name of this cryptocurrency or decentralized digital currency?,"Ethereum,Bitcoin,NFT,XRP",2,bitcoin.png
-4,What is the name of this automotive brand?,"BMW,Volkswagen,Citroen,Creta",1,car.png
-5,What is the name of this fictional cat?,"Doraemon,Hello Kitty,Totoro,chota hathi",1,cartoon.png
-6,What is the name of this dog breed?,"Beagle,German Shepherd,Golden Retriever,German shepherd",3,dog.png
-7,What is the name of this coffee shop brand?,"Tchibo,Starbucks,Stumptown Coffee Roasters,The Twitter Beans",2,brand.png
-8,"What is the name of this traditional garment, which is the national dress of Viet Nam?","Ao dai,Hanbok,Kimono,hui sai",1,dress.png
-9,What is the name of this gemstone?,"Ruby,Sapphire,Emerald,Rubies",1,germs.png
-10,What is the name of this cake?,"Brownie,Red velvet,Carrot,Pineapple Upside Down",1,cake.png
-11,This is the area view of which city in the United States?,"Los Angeles,Chicago,Mumbai,New York City",4,city.png
-12,What is the name of this famous noodle?,"Ramen- Japan,Japchae- Korea,Bun Bo Hue � Viet Nam,Laksa-Malaysia, Singapore",3,noodle.png
-13,Name these famous logos,"McDonald�s  Nike Starbucks Twitter,KFC Adidas  Starbucks  Twitter ,Chicken Texas Nike Starbucks Instagram, none of these",1,logo.png
-14,This is the flag of which country?,"Spain,China,Denmark,India",3,flag.png
-15,What is the name of this sport?,"tennis,football,baseball,cricket",4,sport.png
-16, This statue is the award for which prestigious and famous event?,"The Grammy Award,The Pulitzer Prize,The Oscars,The india award",3,award.png
-17,What kind of instrument is this?,"Guitar,Piano,Cello,bean",1,instrument.png
-18,Which famous female singer is this?,"Ariana Grande,Taylor Swift,Katy Perry,Madonna",1,singer.png
-19, Can you tell me the name of this best 80s sci-fi movie poster?,"The Terminator (1984) ,E.T. the Extra-terrestrial (1982),Back to the Future (1985),None Of These",2,poster.png
-20,what is the name of this fruit?,"Apple,Guava,Grapes,Banana",4,fruit.png
-21,Name this vegetable____,"papaya,onion,capsicum,Ladyfinger",2,vegetable.png
-22,Name this Actress___,"Parneeti chopra,Priyanka Chopra,Aliya Bhatt,Ananya Pandey",2,priyanka.png
-23,what is the name of Fruit name?,"Grapes,Guava,Musk Melon, water melon",4,watermelon.png
-24,What is the name of this cake?,"Brownie,Red velvet,Carrot,Pineapple Upside Down",1,cake.png
-25,What is the name of this flower?,"Lilies,Daisies,Roses,Lotus",3,gardener.png
-26,What is the name of this fictional cat?,"Doraemon,Hello Kitty,Totoro,chota hathi",1,cartoon.png
-27,What is the name of this coffee shop brand?,"Tchibo,Starbucks,Stumptown Coffee Roasters,The Twitter Beans",2,brand.png
-28,This is the flag of which country?,"Spain,China,Denmark,India",3,flag.png
-29,What kind of instrument is this?,"Guitar,Piano,Cello,bean",1,instrument.png
-30,Which famous female singer is this?,"Ariana Grande,Taylor Swift,Katy Perry,Madonna",1,singer.png
+1,Guess the memory name.,,0,1.jpg
+2,Full Form of CCTV is?,,0,2.jpg
+3,This is LCD TV. What is the fullform of LCD?,,0,3.jpg
+4,Everyone using SIM card. What is the fullform of SIM?,,0,4.jpg
+5,Wow Spiderman but this is not real. This is PNG image. What is the fullform of PNG?,,0,5.jpg
+6,Html code!!! Great. Now tell me full form of HREF?,,0,6.png
+7,Smiling Photo. He is founder of which company?,,0,7.jpg
+8,Everyone purchasing clothes from Flipkart. Who is founder of Flipkart?,,0,8.jpg
+9,Guess the name of this personality,,0,9.jpg
+10,lets do google. Guess his name,,0,10.jpg
+11,He is one of founding member of Zomato. Guess the name.,,0,11.jpg
+12,Guess his name,,0,12.jpg
+13,Which type of OS is used in Robots?,,0,13.jpg
+14,Give answer of picture question,,0,14.jpg
+15,She is ROBOT. Her name is Sophia. Which country company founded Sophia?,,0,15.jpg
+16,"_________ is the first programmable, electronic, general-purpose digital computer, completed in 1945",,0,16.jpg
+17,"_________ is to store important system settings and configurations such as the date and time, boot order, hardware settings, and password information.",,0,17.jpg
+18,_________ is a computer expansion card that generates a feed of graphics output to a display device such as a monitor.,,0,18.jpg
