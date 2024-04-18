@@ -30,7 +30,7 @@ class Round():
         self.minusMark=minusMark
         self.id=id
         self.name=name
-        self.num_q = num_q
+        # self.num_q = num_q
 
     def check_answer(self, qid, answer):
         self.lastQuestionMarked=True
