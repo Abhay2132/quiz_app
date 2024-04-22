@@ -16,3 +16,8 @@ py admin.py
 ```
 py participant.py
 ```
+
+## Contributors
+
+- [Kakarot](https://github.com/Kakrote)
+- Magan
