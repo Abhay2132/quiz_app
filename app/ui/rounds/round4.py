@@ -6,7 +6,7 @@ from ..._globals import _GLOBALs
 from .util import set_option_selected, set_option_normal, set_option_correct
 from .round import ROUND, QuestionFrame
 import os
-
+#  this is the round 4 this wrapper conatin rank frmane into round 4
 class Wrapper(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__( master, **kwargs)

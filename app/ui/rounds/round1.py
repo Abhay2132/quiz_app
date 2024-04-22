@@ -12,7 +12,7 @@ class Question_Frame(QuestionFrame):
         self.l_question=ctk.CTkLabel(self,text="Question will Appear Here",font=('Garamond',35),fg_color='transparent',text_color='black',width=500,height=200)
     def show(self):
         self.l_question.grid(row=0,column=0,sticky='nesw',padx=20,pady=20)
-        
+#  this is the round 1
 class Round1(ROUND):
     q_frame=None
     hasOptions=False

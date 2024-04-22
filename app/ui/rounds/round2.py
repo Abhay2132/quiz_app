@@ -6,7 +6,7 @@ from PIL import Image
 from ..._globals import _GLOBALs
 from .util import set_option_normal, set_option_selected, set_option_correct
 from .round import ROUND, QuestionFrame
-
+#  this is the round 2
 class Question_Frame(QuestionFrame):
 
     options = None
