@@ -11,6 +11,17 @@ from .lib.rounds import Round1, Round2, Round3, Round4
 import os
 from .ui.admin.frames.live import PlayFrame, LiveFrame
 from ._globals import _GLOBALs
+import tkinter as tk
+from tkinter import messagebox
+
+def show_and_exit():
+  """
+  Displays an alert dialog and exits the application.
+  """
+  root = tk.Tk()
+  root.withdraw()  # Hide the main window
+  messagebox.showerror("Error", "Turn on hotspot first")
+  root.destroy()  # Destroy the hidden window to exit the app
 
 class Admin(ADMIN):
     curr_round_i=0
@@ -24,12 +35,18 @@ class Admin(ADMIN):
         ADMIN.me = self
         self.ui=App()
         self.qBank = QuestionBank(qdir=os.path.join(os.getcwd(), "data", "questions"))
+        
         # self.server = ServerSocket(addr=addr)
-        self.server = ServerSocket(addr=(getHOTSPOT(), port))
-        self.server.on("new-connection", self.addParticipant)
-        self.server.on("data", self.handleDataEvents)
-        self.server.on("disconnected", self.onDisconnect)
+        
+        try:
+            self.server = ServerSocket(addr=(getHOTSPOT(), port))
 
+            self.server.on("new-connection", self.addParticipant)
+            self.server.on("data", self.handleDataEvents)
+            self.server.on("disconnected", self.onDisconnect)
+        except:
+            show_and_exit()
+            pass
         self.rounds =(
             Round1(self), 
             Round2(self), 
